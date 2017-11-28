@@ -110,8 +110,10 @@ def post():
 	username = session['username']
 	cursor = conn.cursor();
 	content = request.form['content']
-	query = 'INSERT INTO content (content_name, username) VALUES(%s, %s)'
-	cursor.execute(query, (content, username))
+	public = request.form['public']
+	filepath = request.form['filepath']
+	query = 'INSERT INTO content (content_name, username, file_path, public) VALUES(%s, %s, %s, %i)'
+	cursor.execute(query, (content, username, filepath, public))
 	conn.commit()
 	cursor.close()
 	return redirect(url_for('home'))
