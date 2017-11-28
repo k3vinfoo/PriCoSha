@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
 <head>
 </head>
 <body>
@@ -11,9 +11,29 @@
 	{% endif %}
 </form>
 
+
+
+
 <a href="/">Go back</a>
 
 </body>
 
 
 </html>
+ -->
+{% extends "bootstrap/base.html" %} {% block title %} Register{% endblock %} {% block content %}
+<h2>Register here</h2>
+<div class="container">
+    <form action="/registerAuth" method="POST">
+        <div class="form-group">
+            <label for="usr">Name</label>
+            <input type="text" class="form-control" id="usr">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Password</label>
+            <input type="password" class="form-control" id="pwd">
+        </div>
+        <input type="submit" class="btn btn-primary btn-block" value="Submit Button">
+    </form>
+</div>
+{% endblock %}
