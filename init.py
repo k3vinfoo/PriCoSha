@@ -109,9 +109,9 @@ def home():
 def post():
 	username = session['username']
 	cursor = conn.cursor();
-	blog = request.form['blog']
-	query = 'INSERT INTO blog (blog_post, username) VALUES(%s, %s)'
-	cursor.execute(query, (blog, username))
+	content = request.form['content']
+	query = 'INSERT INTO content (content_name, username) VALUES(%s, %s)'
+	cursor.execute(query, (content, username))
 	conn.commit()
 	cursor.close()
 	return redirect(url_for('home'))
