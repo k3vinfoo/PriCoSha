@@ -98,7 +98,8 @@ def registerAuth():
 def home():
 	username = session['username']
 	cursor = conn.cursor();
-	query = 'SELECT timest, id FROM Content WHERE username = %s ORDER BY timest DESC'
+	#id of content, poster, timestamp, caption(title)
+	query = 'SELECT id, username, timest, content_name, public FROM Content WHERE username = %s ORDER BY timest DESC'
 	cursor.execute(query, (username))
 	data = cursor.fetchall()
 	cursor.close()
@@ -110,12 +111,16 @@ def post():
 	username = session['username']
 	cursor = conn.cursor();
 	content = request.form['content']
-	ispublic = request.form.getlist('public') 
-	public = 0
-	if ispublic:
-		public = 1
+	public = request.form['pubPriv'] 
 	filepath = request.form['filepath']
-	query = 'INSERT INTO content (content_name, username, file_path, public) VALUES (%s, %s, %s, %d)'
+
+	if (public == "True"):
+		public = True
+	else:
+		public = False
+	
+	query = 'INSERT INTO content (content_name, username, file_path, public) VALUES (%s, %s, %s, %s)'
+
 	cursor.execute(query, (content, username, filepath, public))
 	conn.commit()
 	cursor.close()

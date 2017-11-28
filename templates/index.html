@@ -34,9 +34,11 @@
 <div class="container">
     {% if not message %}
     <h1 align=center>Pied Piper</h1>
-    <div class="btn-group-lg" role="group">
-        <a type="button" class="btn btn-primary" href="/login ">Login</a>
-        <a type="button" class="btn btn-primary" href="/register ">Register</a>
+    <div style="margin: 0 auto" class="container">
+        <div class="btn-group-lg mr-2" role="group">
+            <a type="button" class="btn btn-primary" href="/login ">Login</a>
+            <a type="button" class="btn btn-primary" href="/register ">Register</a>
+        </div>
     </div>
     {% endif %} {% if message %}
     <a href="/logout ">Logout</a>
