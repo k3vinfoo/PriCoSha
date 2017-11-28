@@ -25,6 +25,11 @@
 <h2 align=center>Register here</h2>
 <div class="container">
     <form action="/registerAuth" method="POST">
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Error: </strong> {{error}}
+        </div>
+        {% endif %}
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username">
@@ -41,11 +46,6 @@
             <label for="lastname">Last name</label>
             <input type="text" class="form-control" id="lastname" name="lastname">
         </div>
-        {% if error %}
-        <div class="alert alert-danger" role="alert">
-            <strong>Error: </strong> {{error}}
-        </div>
-        {% endif %}
         <input type="submit" class="btn btn-primary btn-block" value="Submit Button">
     </form>
 </div>

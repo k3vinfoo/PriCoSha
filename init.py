@@ -41,7 +41,8 @@ def register():
 def loginAuth():
 	#grabs information from the forms
 	username = request.form['username']
-	password = request.form['password']
+	password = hashlib.md5(request.form['password']).hexdigest()
+
 
 	#cursor used to send queries
 	cursor = conn.cursor()
@@ -97,7 +98,7 @@ def registerAuth():
 def home():
 	username = session['username']
 	cursor = conn.cursor();
-	query = 'SELECT ts, blog_post FROM blog WHERE username = %s ORDER BY ts DESC'
+	query = 'SELECT timest, id FROM Content WHERE username = %s ORDER BY timest DESC'
 	cursor.execute(query, (username))
 	data = cursor.fetchall()
 	cursor.close()
