@@ -26,13 +26,18 @@
 <div class="container">
     <form action="/registerAuth" method="POST">
         <div class="form-group">
-            <label for="usr">Name</label>
-            <input type="text" class="form-control" id="usr">
+            <label for="username">Name</label>
+            <input type="text" class="form-control" id="username">
         </div>
         <div class="form-group">
-            <label for="pwd">Password</label>
-            <input type="password" class="form-control" id="pwd">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password">
         </div>
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Error: </strong> {{error}}
+        </div>
+        {% endif %}
         <input type="submit" class="btn btn-primary btn-block" value="Submit Button">
     </form>
 </div>
