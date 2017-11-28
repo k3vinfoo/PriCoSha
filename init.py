@@ -4,14 +4,18 @@ import pymysql.cursors
 
 #Initialize the app from Flask
 app = Flask(__name__)
-
+print ('connecting...')
 #Configure MySQL
+
 conn = pymysql.connect(host='localhost',
+					   port=3306,
                        user='root',
                        password='root',
-                       db='meetup3',
+                       db='PriCoSha',
                        charset='utf8mb4',
-                       cursorclass=pymysql.cursors.DictCursor)
+                       cursorclass=pymysql.cursors.DictCursor
+                       )
+
 
 #Define a route to hello function
 @app.route('/')
@@ -54,6 +58,7 @@ def loginAuth():
 		#returns an error message to the html page
 		error = 'Invalid login or username'
 		return render_template('login.html', error=error)
+		
 
 #Authenticates the register
 @app.route('/registerAuth', methods=['GET', 'POST'])
