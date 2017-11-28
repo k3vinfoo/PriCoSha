@@ -110,9 +110,12 @@ def post():
 	username = session['username']
 	cursor = conn.cursor();
 	content = request.form['content']
-	public = request.form['public']
+	ispublic = request.form.getlist('public') 
+	public = 0
+	if ispublic:
+		public = 1
 	filepath = request.form['filepath']
-	query = 'INSERT INTO content (content_name, username, file_path, public) VALUES(%s, %s, %s, %i)'
+	query = 'INSERT INTO content (content_name, username, file_path, public) VALUES (%s, %s, %s, %d)'
 	cursor.execute(query, (content, username, filepath, public))
 	conn.commit()
 	cursor.close()
