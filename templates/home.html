@@ -37,14 +37,14 @@
 <div class="container">
     <h2 align=center>Welcome, {{username}}</h2>
     <div class="container">
-        <form action="/registerAuth" method="POST">
+        <form action="/post" method="POST">
             {% if error %}
             <div class="alert alert-danger" role="alert">
                 <strong>Error: </strong> {{error}}
             </div>
             {% endif %}
             <div class="form-group">
-                <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
+                <input type="text" class="form-control" id="content" name="content" placeholder="Content Title" required>
                 <input type="text" class="form-control" id="filepath" name="filepath" placeholder="Filepath" required>
                 <input type="checkbox" class="form-check-input" name="public" checked> Public Post
             </div>
