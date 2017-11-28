@@ -2,12 +2,12 @@
 from flask import Flask, render_template, request, session, url_for, redirect
 import pymysql.cursors
 from flask_bootstrap import Bootstrap 
+import hashlib
 
 #Initialize the app from Flask
 app = Flask(__name__)
 Bootstrap(app) #for bootstrap 
 
-print ('connecting...')
 #Configure MySQL
 
 conn = pymysql.connect(host='localhost',
@@ -21,7 +21,6 @@ conn = pymysql.connect(host='localhost',
 
 
 
-print ('connected to server')
 #Define a route to hello function
 @app.route('/')
 def hello():
@@ -70,12 +69,14 @@ def loginAuth():
 def registerAuth():
 	#grabs information from the forms
 	username = request.form['username']
-	password = request.form['password']
+	password = hashlib.md5(request.form['password']).hexdigest()
+	firstname = request.form['firstname']
+	lastname = request.form['lastname']
 
 	#cursor used to send queries
 	cursor = conn.cursor()
 	#executes query
-	query = 'SELECT * FROM user WHERE username = %s'
+	query = 'SELECT * FROM Person WHERE username = %s'
 	cursor.execute(query, (username))
 	#stores the results in a variable
 	data = cursor.fetchone()
@@ -86,8 +87,8 @@ def registerAuth():
 		error = "This user already exists"
 		return render_template('register.html', error = error)
 	else:
-		ins = 'INSERT INTO Person VALUES(%s, %s)'
-		cursor.execute(ins, (username, password))
+		ins = 'INSERT INTO Person VALUES (%s, %s, %s, %s)'
+		cursor.execute(ins, (username, password, firstname, lastname))
 		conn.commit()
 		cursor.close()
 		return render_template('index.html')
