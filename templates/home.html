@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
 <head>
 </head>
 <body>
@@ -32,3 +32,45 @@
 
 
 </html>
+ -->
+{% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %}
+<div class="container">
+    <h2 align=center>Welcome, {{username}}</h2>
+    <div class="container">
+        <form action="/registerAuth" method="POST">
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Error: </strong> {{error}}
+            </div>
+            {% endif %}
+            <div class="form-group">
+                <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
+                <input type="text" class="form-control" id="filepath" name="filepath" placeholder="Filepath" required>
+                <input type="checkbox" class="form-check-input" name="public" checked> Public Post
+            </div>
+            <input type="submit" class="btn btn-primary btn-block" value="Post">
+        </form>
+    </div>
+    <div class="container">
+        <h2>Post Information</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Post</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in posts %}
+                <tr>
+                    <td>{{line.timest}}</td>
+                    <td>{{line.content_name}}</td>
+                </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <a class="btn btn-info" href="/logout">Logout</a> {% endblock %}
+    </div>
+</div>
