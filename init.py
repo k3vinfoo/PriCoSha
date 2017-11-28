@@ -8,15 +8,17 @@ print ('connecting...')
 #Configure MySQL
 
 conn = pymysql.connect(host='localhost',
-					   port=3306,
+                       port=8889,
                        user='root',
                        password='root',
-                       db='PriCoSha',
+                       db='pricosha',
                        charset='utf8mb4',
-                       cursorclass=pymysql.cursors.DictCursor
-                       )
+                       cursorclass=pymysql.cursors.DictCursor)
 
 
+
+
+print ('connected to server')
 #Define a route to hello function
 @app.route('/')
 def hello():
