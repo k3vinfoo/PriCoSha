@@ -147,11 +147,18 @@ def friendGroupAuth():
 	cursor = conn.cursor();
 	groupname = request.form['groupname']
 	description = request.form['desc']
+
 	for key in request.form:
 		if key.startswith('Member'):
 			#add each member to the DB
+			query = 'INSERT INTO Member (username, groupname, username_creator) VALUES (%s, %s, %s, %s)'
+			cursor.execute(query, (request.form[key], groupname, username))
 			#print(request.form[key] will print the usernames entered for all members)
-		# 	print(request.form[key])
+	#create friendgroup and set curr username as owner
+	query = 'INSERT INTO FriendGroup (groupname, username, description) VALUES (%s, %s, %s, %s)'
+	cursor.execute(query, (groupname, username, description))
+	conn.commit()
+	cursor.close()
 	return redirect(url_for('home'))
 
 @app.route('/logout')
