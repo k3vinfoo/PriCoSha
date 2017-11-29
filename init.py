@@ -126,6 +126,19 @@ def post():
 	cursor.close()
 	return redirect(url_for('home'))
 
+@app.route('/friendGroupAuth')
+def friendGroupAuth():
+	groupname = session['groupname']
+	username = session['username']
+	description = session ['description']
+	cursor = conn.cursor();
+	query = 'INSERT INTO FriendGroup VALUES (%s, %s, %s)'
+	conn.commit()
+	cursor.close()
+	return redirect(url_for('home'))
+@app.route('/friendgroup')
+def friendgroup():
+	return render_template('friendgroup.html', username=username)
 @app.route('/logout')
 def logout():
 	session.pop('username')

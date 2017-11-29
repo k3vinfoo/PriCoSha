@@ -20,32 +20,26 @@
 {% extends "bootstrap/base.html" %} {% block title %} Log In {% endblock %} {% block content %}
 <h2 align=center>Log In </h2>
 <div class="container">
-    <form action="/loginAuth" method="POST">
+    <form action="/loginAuth" method="POST" style="width:25em; margin: 0 auto;">
         {% if error %}
         <div class="alert alert-danger" role="alert">
             <strong>Error: </strong> {{error}}
         </div>
         {% endif %}
         <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
-                </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6">
-                <input type="submit" class="btn btn-primary btn-block" value="Log In">
-            </div>
+            <input type="submit" class="btn btn-primary btn-block" value="Log In">
         </div>
     </form>
 </div>
