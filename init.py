@@ -3,9 +3,11 @@ from flask import Flask, render_template, request, session, url_for, redirect
 import pymysql.cursors
 from flask_bootstrap import Bootstrap 
 import hashlib
+import os
 
 #Initialize the app from Flask
 app = Flask(__name__)
+app._static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates/static")
 Bootstrap(app) #for bootstrap 
 
 #Configure MySQL
@@ -14,7 +16,7 @@ conn = pymysql.connect(host='localhost',
                        port=8889,
                        user='root',
                        password='root',
-                       db='pricosha',
+                       db='PriCoSha',
                        charset='utf8mb4',
                        cursorclass=pymysql.cursors.DictCursor)
 
@@ -42,8 +44,6 @@ def loginAuth():
 	#grabs information from the forms
 	username = request.form['username']
 	password = hashlib.md5(request.form['password']).hexdigest()
-
-
 	#cursor used to send queries
 	cursor = conn.cursor()
 	#executes query
@@ -128,18 +128,20 @@ def post():
 
 @app.route('/friendGroupAuth')
 def friendGroupAuth():
-	groupname = session['groupname']
-	username = session['username']
-	description = session ['description']
-	cursor = conn.cursor();
-	query = 'INSERT INTO FriendGroup VALUES (%s, %s, %s)'
-	conn.commit()
-	cursor.close()
+	# groupname = session['groupname']
+	# username = session['username']
+	# description = session ['description']
+	# cursor = conn.cursor();
+	# query = 'INSERT INTO FriendGroup VALUES (%s, %s, %s)'
+	# conn.commit()
+	# cursor.close()
 	return redirect(url_for('home'))
 
 @app.route('/friendgroup')
 def friendgroup():
-	return render_template('friendgroup.html', username=username)
+	# return render_template('friendgroup.html', username=username)
+	return render_template('friendgroup.html')
+
 @app.route('/logout')
 def logout():
 	session.pop('username')
