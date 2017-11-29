@@ -33,12 +33,17 @@
 {% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %}
 <div class="container">
     {% if not message %}
-    <h1 align=center>Pied Piper</h1>
-    <div style="margin: 0 auto" class="container">
-        <div class="btn-group-lg mr-2" role="group">
-            <a type="button" class="btn btn-primary" href="/login ">Login</a>
-            <a type="button" class="btn btn-primary" href="/register ">Register</a>
-        </div>
+    <div class="jumbotron" style="margin-top:10em; text-align: center">
+        <h1 class="display-3">PriCoSha</h1>
+        <p class="lead">A simple, PriCoSha</p>
+        <hr class="my-4">
+        <p>Sign Up or Log In now!</p>
+        <p class="lead">
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary btn-lg" href="/register" role="button">Register</a>
+                <a class="btn btn-primary btn-lg" href="/login" role="button">Log In</a>
+            </div>
+        </p>
     </div>
     {% endif %} {% if message %}
     <a href="/logout ">Logout</a>
