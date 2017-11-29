@@ -3,7 +3,7 @@ var doc = document;
 function addFields(){
     var number = doc.getElementById("member").value;
     var container = doc.getElementById("addMembersContainer");
-    var mainContainer = doc.getElementById("mainContainer");
+    var mainContainer = doc.getElementById("formContainer");
     while (container.hasChildNodes()) {
         container.removeChild(container.lastChild);
     }
@@ -11,8 +11,9 @@ function addFields(){
         container.appendChild(document.createTextNode("Member " + (i+1)));
         var input = doc.createElement("input");
         input.className = "form-control";
-        input.name = "member" + i;
+        input.name = "Member " + i;
         input.type = "text";
+        input.id = "Member " + i;
         container.appendChild(input);
         container.appendChild(doc.createElement("br"));
     }

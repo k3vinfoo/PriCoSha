@@ -37,6 +37,10 @@ def login():
 @app.route('/register')
 def register():
 	return render_template('register.html')
+#Define route for friendgroup
+@app.route('/friendgroup')
+def friendgroupRoute():
+	return render_template('friendgroup.html')
 
 #Authenticates the login
 @app.route('/loginAuth', methods=['GET', 'POST'])
@@ -126,21 +130,31 @@ def post():
 	cursor.close()
 	return redirect(url_for('home'))
 
-@app.route('/friendGroupAuth')
-def friendGroupAuth():
-	# groupname = session['groupname']
-	# username = session['username']
-	# description = session ['description']
-	# cursor = conn.cursor();
-	# query = 'INSERT INTO FriendGroup VALUES (%s, %s, %s)'
-	# conn.commit()
-	# cursor.close()
-	return redirect(url_for('home'))
+# @app.route('/friendGroupAuth')
+# def friendGroupAuth():
+# 	# groupname = session['groupname']
+# 	# username = session['username']
+# 	# description = session ['description']
+# 	# cursor = conn.cursor();
+# 	# query = 'INSERT INTO FriendGroup VALUES (%s, %s, %s)'
+# 	# conn.commit()
+# 	# cursor.close()
+# 	return redirect(url_for('home'))
 
-@app.route('/friendgroup')
-def friendgroup():
+@app.route('/friendGroupAuth', methods=['GET','POST'])
+def friendGroupAuth():
+	username = session['username']
+	cursor = conn.cursor();
+	groupname = request.form['groupname']
+	description = request.form['description']
+	####FIGURE OUT NUMBER OF MEMBERS AND GET EACH MEMBER'S USERNAME
+	#### request.form['member'] returns number of members user is adding
+	#### check scripts.js to see what the id of each input value is
+	# for i in range(request.form['member']):
+	# 	currMember = request.form['member ' + i+1]
+	# 	print(currMember)
 	# return render_template('friendgroup.html', username=username)
-	return render_template('friendgroup.html')
+	return redirect(url_for('home'))
 
 @app.route('/logout')
 def logout():

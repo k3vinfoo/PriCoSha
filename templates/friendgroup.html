@@ -7,8 +7,8 @@
     <script src="{{url_for('static', filename='scripts.js')}}"></script>
 {% endblock %}
 <h2 align="center">Create a Friend Group</h2>
-<div class="container" id="mainContainer">
-    <form action="/friendGroupAuth" method="POST">
+<div class="container">
+    <form action="/friendGroupAuth" method="POST" id="formContainer">
         {% if error %}
         <div class="alert alert-danger" role="alert">
             <strong>Error: </strong> {{error}}
