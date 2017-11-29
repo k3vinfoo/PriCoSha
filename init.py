@@ -136,6 +136,7 @@ def friendGroupAuth():
 	conn.commit()
 	cursor.close()
 	return redirect(url_for('home'))
+
 @app.route('/friendgroup')
 def friendgroup():
 	return render_template('friendgroup.html', username=username)
