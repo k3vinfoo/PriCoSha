@@ -146,14 +146,12 @@ def friendGroupAuth():
 	username = session['username']
 	cursor = conn.cursor();
 	groupname = request.form['groupname']
-	description = request.form['description']
-	####FIGURE OUT NUMBER OF MEMBERS AND GET EACH MEMBER'S USERNAME
-	#### request.form['member'] returns number of members user is adding
-	#### check scripts.js to see what the id of each input value is
-	# for i in range(request.form['member']):
-	# 	currMember = request.form['member ' + i+1]
-	# 	print(currMember)
-	# return render_template('friendgroup.html', username=username)
+	description = request.form['desc']
+	for key in request.form:
+		if key.startswith('Member'):
+			#add each member to the DB
+			#print(request.form[key] will print the usernames entered for all members)
+		# 	print(request.form[key])
 	return redirect(url_for('home'))
 
 @app.route('/logout')

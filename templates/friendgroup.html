@@ -21,11 +21,12 @@
 
         <div class="form-group">
             <label for="Description">Description</label>
-            <input type="text" class="form-control" id="Description" name="Description" required>
+            <input type="text" class="form-control" id="desc" name="desc" required>
         </div>
 
         <div id="addMembersContainer">
-            <input type="text" id="member" name="member" value="" required>Number of members: (max. 10)<br/>
+            <label for="members">Number of members: (max. 10)</label>
+            <input type="text" class="form-control" id="members" name="members" required>
             <a href="#" id="filldetails" class="btn btn-primary btn-block" onclick="addFields()">Proceed</a>
         <div id="addMembersContainer"/>
 

@@ -1,11 +1,12 @@
 //REDEFINE DOCUMENT AS LOCAL DOC
 var doc = document;
 function addFields(){
-    var number = doc.getElementById("member").value;
+    var number = doc.getElementById("members").value;
     var container = doc.getElementById("addMembersContainer");
     var mainContainer = doc.getElementById("formContainer");
     while (container.hasChildNodes()) {
-        container.removeChild(container.lastChild);
+        //container.removeChild(container.lastChild);
+        container.lastChild.type = "hidden";
     }
     for (i=0;i<number;i++){
         container.appendChild(document.createTextNode("Member " + (i+1)));
