@@ -5,8 +5,7 @@ function addFields(){
     var container = doc.getElementById("addMembersContainer");
     var mainContainer = doc.getElementById("formContainer");
     while (container.hasChildNodes()) {
-        //container.removeChild(container.lastChild);
-        container.lastChild.type = "hidden";
+        container.removeChild(container.lastChild);
     }
     for (i=0;i<number;i++){
         container.appendChild(document.createTextNode("Member " + (i+1)));
@@ -14,7 +13,6 @@ function addFields(){
         input.className = "form-control";
         input.name = "Member " + i;
         input.type = "text";
-        input.id = "Member " + i;
         container.appendChild(input);
         container.appendChild(doc.createElement("br"));
     }
