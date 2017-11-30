@@ -70,6 +70,8 @@
                     <th>Time</th>
                     <th>Post</th>
                     <th>Visibility</th>
+                    <th>Tagged</th>
+                    <th>Comments</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,6 +82,20 @@
                     <td>{{line.timest}}</td>
                     <td>{{line.content_name}}</td>
                     <td>{{line.public}}</td>
+                    <td>
+                    {% for tag in tagData %}
+                        {% if line.id == tag.id%}
+                            {{tag.username_taggee}} </br>
+                        {% endif %}
+                    {%endfor%}
+                    </td>
+                    <td>
+                    {% for comment in commentData %}
+                        {% if line.id == comment.id%}
+                            {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
+                        {% endif %}
+                    {%endfor%}
+                    </td>
                 </tr>
                 {% endfor%}
             </tbody>

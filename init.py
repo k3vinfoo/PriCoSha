@@ -107,7 +107,17 @@ def home():
 	cursor.execute(query, (username))
 	data = cursor.fetchall()
 	cursor.close()
-	return render_template('home.html', username=username, posts=data)
+	cursor = conn.cursor();
+	query = 'SELECT id, username_taggee FROM Tag WHERE status = 1'
+	cursor.execute(query)
+	tagData = cursor.fetchall()
+	cursor.close()
+	cursor = conn.cursor();
+	query = 'SELECT id, username, comment_text, timest FROM Comment'
+	cursor.execute(query)
+	commentData = cursor.fetchall()
+	cursor.close()
+	return render_template('home.html', username=username, posts=data, tagData=tagData, commentData=commentData)
 
 		
 @app.route('/post', methods=['GET', 'POST'])
