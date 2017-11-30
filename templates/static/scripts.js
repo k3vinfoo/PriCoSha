@@ -1,3 +1,4 @@
+// dont need this yet... for later
 function deleteLastForm() {
     console.log('deleting form');
     var tagUsersForm = document.getElementById('tagUsersForm');
@@ -21,10 +22,6 @@ function addForms() {
     form_input.style.marginBottom = "5px";
     form_input.placeholder = "Tag a user";
     userForm.appendChild(form_input);
-
-
-
-
 };
 //REDEFINE DOCUMENT AS LOCAL DOC
 var doc = document;
