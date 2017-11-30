@@ -102,21 +102,31 @@ def registerAuth():
 def home():
 	username = session['username']
 	cursor = conn.cursor();
-	#id of content, poster, timestamp, caption(title)
-	query = 'SELECT id, username, timest, content_name, public FROM Content WHERE username = %s ORDER BY timest DESC'
-	cursor.execute(query, (username))
+	#get posts this user should be seeing
+	query = 'SELECT id, username, timest, content_name, public FROM Content WHERE id in (SELECT id FROM member NATURAL JOIN share WHERE member.username = %s) OR public = 1 OR username = %s ORDER BY timest DESC'
+	cursor.execute(query, (username, username))
 	data = cursor.fetchall()
 	cursor.close()
+	# fetch all posts:
+	# cursor = conn.cursor();
+	# query = 'SELECT id, username, timest, content_name, public FROM Content WHERE username = %s ORDER BY timest DESC'
+	# cursor.execute(query, (username))
+	# data = cursor.fetchall()
+	# cursor.close()
+
+	#get tag information for all posts
 	cursor = conn.cursor();
 	query = 'SELECT id, username_taggee FROM Tag WHERE status = 1'
 	cursor.execute(query)
 	tagData = cursor.fetchall()
 	cursor.close()
+	#get comment information for all posts
 	cursor = conn.cursor();
 	query = 'SELECT id, username, comment_text, timest FROM Comment'
 	cursor.execute(query)
 	commentData = cursor.fetchall()
 	cursor.close()
+	#render home.html and pass info info the html for parsing
 	return render_template('home.html', username=username, posts=data, tagData=tagData, commentData=commentData)
 
 		
