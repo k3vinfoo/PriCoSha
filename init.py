@@ -4,6 +4,7 @@ import pymysql.cursors
 from flask_bootstrap import Bootstrap 
 import hashlib
 import os
+import time
 
 #Initialize the app from Flask
 app = Flask(__name__)
@@ -98,7 +99,7 @@ def registerAuth():
 		cursor.close()
 		return render_template('index.html')
 
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 def home():
 	username = session['username']
 	cursor = conn.cursor();
@@ -126,6 +127,21 @@ def home():
 	cursor.execute(query)
 	commentData = cursor.fetchall()
 	cursor.close()
+
+	tagged = ""
+	contentID = ""
+	for key in request.form:
+		if key == 'tags':
+			tagged = request.form[key]
+		if key.isdigit():
+			contentID = key
+	if (tagged != "" and contentID != ""):
+		cursor = conn.cursor();
+		query = 'INSERT INTO Tag (id, username_tagger, username_taggee, timest, status) VALUES (%s, %s, %s, %s, %s)'
+		cursor.execute(query, (contentID, username, tagged, time.strftime('%Y-%m-%d %H:%M:%S'), 0))
+		conn.commit()
+		cursor.close()
+
 	#render home.html and pass info info the html for parsing
 	return render_template('home.html', username=username, posts=data, tagData=tagData, commentData=commentData)
 
