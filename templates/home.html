@@ -78,7 +78,7 @@
             </thead>
             <tbody>
                 {% for line in posts %}
-                <tr id="row" data-toggle="modal" data-target="#tag-modal" onmouseover="" style="cursor: pointer;">
+                <tr id={{line.id}} data-toggle="modal" data-target="#tag-modal" onmouseover="" style="cursor: pointer;" onclick="getId(this)">
                     <td>{{line.id}}</td>
                     <td>{{line.username}}</td>
                     <td>{{line.timest}}</td>
@@ -92,7 +92,9 @@
                         {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
                         {% endif %} {%endfor%}
                     </td>
-                    <div class="modal fade" id="tag-modal">
+                </tr>
+                {% endfor%}
+                <div class="modal fade" id="tag-modal">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -111,7 +113,6 @@
                                         <div id="tagUsersContainer">
                                             <div class="form-group" id="tagUsersForm">
                                                 <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
-                                                <input type="hidden" name={{line.id}}>
                                             </div>
                                         </div>
                                         <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
@@ -126,8 +127,6 @@
                             </div>
                         </div>
                     </div>
-                </tr>
-                {% endfor%}
 
             </tbody>
         </table>

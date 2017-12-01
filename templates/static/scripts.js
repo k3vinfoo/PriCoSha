@@ -1,3 +1,12 @@
+function getId(element) {
+    //alert(element.id);
+    var form = document.getElementById('formCont');
+    var hiddenContentIDInput = document.createElement("input");
+    hiddenContentIDInput.type = "hidden";
+    hiddenContentIDInput.name = element.id;
+    form.appendChild(hiddenContentIDInput);
+}
+
 // dont need this yet... for later
 function deleteLastForm() {
     console.log('deleting form');
