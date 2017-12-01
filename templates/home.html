@@ -63,7 +63,7 @@
         <a class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a>
     </div>
     <div class="container">
-        <h2>Post Information</h2>
+        <h3>Post Information</h3>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -71,7 +71,7 @@
                     <th>Username</th>
                     <th>Time</th>
                     <th>Post</th>
-                    <th>Visibility</th>
+                    <th>Status</th>
                     <th>Tagged</th>
                     <th>Comments</th>
                 </tr>
@@ -83,7 +83,7 @@
                     <td>{{line.username}}</td>
                     <td>{{line.timest}}</td>
                     <td>{{line.content_name}}</td>
-                    <td>{{line.public}}</td>
+                    <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
                     <td>
                         {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
                         {% endif %} {%endfor%}
