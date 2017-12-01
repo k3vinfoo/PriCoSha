@@ -108,6 +108,13 @@ def home():
 	cursor.execute(query, (username, username))
 	data = cursor.fetchall()
 	cursor.close()
+
+	# cursor = conn.cursor();
+	# #get posts this user should be seeing
+	# tagquery = 'SELECT id, username, timest, content_name, public FROM Content WHERE id in (SELECT id FROM member NATURAL JOIN share WHERE member.username = %s) OR public = 1 OR username = %s ORDER BY timest DESC'
+	# cursor.execute(tagquery, (username, username))
+	# tagdata = cursor.fetchall()
+	# cursor.close()
 	# fetch all posts:
 	# cursor = conn.cursor();
 	# query = 'SELECT id, username, timest, content_name, public FROM Content WHERE username = %s ORDER BY timest DESC'

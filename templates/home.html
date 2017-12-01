@@ -59,6 +59,46 @@
         </form>
     </div>
     <div class="container">
+        <h3>Manage Tags</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Post ID</th>
+                    <th>Username</th>
+                    <th>Time</th>
+                    <th>Post</th>
+                    <th>Status</th>
+                    <th>Tagged</th>
+                    <th>Comments</th>
+                    <th>Approve?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in posts %}
+                {% if line.public == 0 %}
+                <tr id={{line.id}}>
+                    <td>{{line.id}}</td>
+                    <td>{{line.username}}</td>
+                    <td>{{line.timest}}</td>
+                    <td>{{line.content_name}}</td>
+                    <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
+                    <td>
+                        {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
+                        {% endif %} {%endfor%}
+                    </td>
+                    <td>
+                        {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
+                        {% endif %} {%endfor%}
+                    </td>
+                    <td>Yes / No</td>
+                </tr>
+                {% endif %}
+                {% endfor%}
+            </tbody>
+        </table>
+
+    </div>
+    <div class="container">
         <h3> Friend Groups </h3>
         <a class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a>
     </div>
