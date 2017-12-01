@@ -78,14 +78,14 @@
             </thead>
             <tbody>
                 {% for line in posts %}
-                <tr id="row" data-toggle="modal" data-target="#tag-modal">
+                <tr id="row" data-toggle="modal" data-target="#tag-modal" onmouseover="" style="cursor: pointer;">
                     <td>{{line.id}}</td>
                     <td>{{line.username}}</td>
                     <td>{{line.timest}}</td>
                     <td>{{line.content_name}}</td>
                     <td>{{line.public}}</td>
                     <td>
-                        {% for tag in tagData %} {% if line.id == tag.id%} {{tag.username_taggee}} </br>
+                        {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
                         {% endif %} {%endfor%}
                     </td>
                     <td>

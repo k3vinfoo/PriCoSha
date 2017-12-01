@@ -137,6 +137,16 @@ def home():
 			contentID = key
 	if (tagged != "" and contentID != ""):
 		cursor = conn.cursor();
+		checker = 'SELECT * FROM Tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s'
+		cursor.execute(checker, (contentID, username, tagged))
+		checked = cursor.fetchone()
+		error = None
+		if (checked):
+			error = "This user is already tagged"
+			return render_template('home.html', username=username, posts=data, tagData=tagData, commentData=commentData, error = error)
+		cursor.close()
+
+		cursor = conn.cursor()
 		query = 'INSERT INTO Tag (id, username_tagger, username_taggee, timest, status) VALUES (%s, %s, %s, %s, %s)'
 		cursor.execute(query, (contentID, username, tagged, time.strftime('%Y-%m-%d %H:%M:%S'), 0))
 		conn.commit()
