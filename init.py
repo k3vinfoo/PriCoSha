@@ -104,23 +104,16 @@ def home():
 	username = session['username']
 	cursor = conn.cursor();
 	#get posts this user should be seeing
-	query = 'SELECT id, username, timest, content_name, public FROM Content WHERE id in (SELECT id FROM member NATURAL JOIN share WHERE member.username = %s) OR public = 1 OR username = %s ORDER BY timest DESC'
+	query = 'SELECT id, username, timest, content_name, public FROM Content WHERE id IN (SELECT id FROM Member NATURAL JOIN Share WHERE Member.username = %s) OR public = 1 OR username = %s ORDER BY timest DESC'
 	cursor.execute(query, (username, username))
 	data = cursor.fetchall()
 	cursor.close()
 
-	# cursor = conn.cursor();
-	# #get posts this user should be seeing
-	# tagquery = 'SELECT id, username, timest, content_name, public FROM Content WHERE id in (SELECT id FROM member NATURAL JOIN share WHERE member.username = %s) OR public = 1 OR username = %s ORDER BY timest DESC'
-	# cursor.execute(tagquery, (username, username))
-	# tagdata = cursor.fetchall()
-	# cursor.close()
-	# fetch all posts:
-	# cursor = conn.cursor();
-	# query = 'SELECT id, username, timest, content_name, public FROM Content WHERE username = %s ORDER BY timest DESC'
-	# cursor.execute(query, (username))
-	# data = cursor.fetchall()
-	# cursor.close()
+	cursor = conn.cursor();
+	query = 'SELECT id, username, timest, content_name FROM Content WHERE id IN (SELECT id FROM Tag WHERE username_taggee = %s AND status = 0)'
+	cursor.execute(query, (username))
+	managetags = cursor.fetchall()
+	cursor.close()
 
 	#get tag information for all posts
 	cursor = conn.cursor();
@@ -150,7 +143,7 @@ def home():
 		error = None
 		if (checked):
 			error = "This user is already tagged"
-			return render_template('home.html', username=username, posts=data, tagData=tagData, commentData=commentData, error = error)
+			return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, commentData=commentData, error = error)
 		cursor.close()
 
 		cursor = conn.cursor()
@@ -160,7 +153,7 @@ def home():
 		cursor.close()
 
 	#render home.html and pass info info the html for parsing
-	return render_template('home.html', username=username, posts=data, tagData=tagData, commentData=commentData)
+	return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, commentData=commentData)
 
 		
 @app.route('/post', methods=['GET', 'POST'])
@@ -179,6 +172,26 @@ def post():
 	query = 'INSERT INTO content (content_name, username, file_path, public) VALUES (%s, %s, %s, %s)'
 
 	cursor.execute(query, (content, username, filepath, public))
+	conn.commit()
+	cursor.close()
+	return redirect(url_for('home'))
+
+@app.route('/approvetag/<contentID>')
+def approvetag(contentID):
+	username = session['username']
+	cursor = conn.cursor()
+	query = 'UPDATE Tag SET status = 1 WHERE id = %s AND username_taggee = %s'
+	cursor.execute(query, (contentID, username))
+	conn.commit()
+	cursor.close()
+	return redirect(url_for('home'))
+
+@app.route('/rejecttag/<contentID>')
+def rejecttag(contentID):
+	username = session['username']
+	cursor = conn.cursor()
+	query = 'DELETE FROM Tag WHERE contentID = %s AND username_taggee = %s'
+	cursor.execute(query, (contentID, username))
 	conn.commit()
 	cursor.close()
 	return redirect(url_for('home'))
