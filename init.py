@@ -192,7 +192,7 @@ def approvetag(contentID):
 def rejecttag(contentID):
 	username = session['username']
 	cursor = conn.cursor()
-	query = 'DELETE FROM Tag WHERE contentID = %s AND username_taggee = %s'
+	query = 'DELETE FROM Tag WHERE id = %s AND username_taggee = %s'
 	cursor.execute(query, (contentID, username))
 	conn.commit()
 	cursor.close()
