@@ -111,6 +111,7 @@ def home():
 	data = cursor.fetchall()
 	cursor.close()
 
+	#get posts that the user was tagged in that they have not approved yet
 	cursor = conn.cursor();
 	query = 'SELECT id, username, timest, content_name FROM Content WHERE id IN (SELECT id FROM Tag WHERE username_taggee = %s AND status = 0)'
 	cursor.execute(query, (username))
@@ -123,11 +124,26 @@ def home():
 	cursor.execute(query)
 	tagData = cursor.fetchall()
 	cursor.close()
+
 	#get comment information for all posts
 	cursor = conn.cursor();
 	query = 'SELECT id, username, comment_text, timest FROM Comment'
 	cursor.execute(query)
 	commentData = cursor.fetchall()
+	cursor.close()
+
+	#groups that user is owner of
+	cursor = conn.cursor()
+	query = 'SELECT DISTINCT group_name FROM Member WHERE username_creator = %s'
+	cursor.execute(query, (username))
+	fgownerdata = cursor.fetchall()
+	cursor.close()
+
+	#groups that user is member of
+	cursor = conn.cursor()
+	query = 'SELECT DISTINCT group_name FROM Member WHERE username = %s'
+	cursor.execute(query, (username))
+	fgmemberdata = cursor.fetchall()
 	cursor.close()
 
 	tagged = ""
@@ -145,7 +161,7 @@ def home():
 		error = None
 		if (checked):
 			error = "This user is already tagged"
-			return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, commentData=commentData, error = error)
+			return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, commentData=commentData, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, error = error)
 		cursor.close()
 
 		cursor = conn.cursor()
@@ -155,7 +171,7 @@ def home():
 		cursor.close()
 
 	#render home.html and pass info info the html for parsing
-	return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, commentData=commentData)
+	return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, commentData=commentData)
 
 		
 @app.route('/post', methods=['GET', 'POST'])
