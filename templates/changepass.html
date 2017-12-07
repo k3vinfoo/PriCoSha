@@ -1,0 +1,23 @@
+{% extends "bootstrap/base.html" %} {% block title %} Change username {% endblock %} {% block content %} {% block scripts %} {{ super() }}
+<script src="{{url_for('static', filename='scripts.js')}}"></script>
+{% endblock %}
+<h2 align="center">Change Your Password</h2>
+<div class="container">
+    <form action="/changepass" method="POST">
+    	{% if error %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Error: </strong> {{error}}
+        </div>
+        {% endif %}
+        <div class="form-pass">
+            <label for="changepass">Current Password</label>
+            <input type="password" class="form-control" id="currentpass" name="currentpass" required>
+            <label for="changepass">New Password</label>
+            <input type="password" class="form-control" id="newpass" name="newpass" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        
+        
+    </form>
+</div>
+{% endblock %}
