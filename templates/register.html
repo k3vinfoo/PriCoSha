@@ -1,44 +1,28 @@
-<!-- <html>
-<head>
-</head>
+ {% extends "bootstrap/base.html" %} {% block title %} Register{% endblock %} {% block content %}
+<style type="text/css">
+#navbarLink {
+    color: #777 !important;
+}
+
+#homeLink:hover {
+    text-decoration: none;
+    color: #777 !important;
+}
+</style>
+
 <body>
-<form action="/registerAuth" method="POST">
-    <input type="text" name = "username" placeholder="username" required/> </br>
-    <input type="password" name = "password" placeholder="password" required/></br>
-    <input type="submit" value = Register />
-    {% if error %}
-        <p class="error"><strong>Error:</strong> {{error}}</p>
-    {% endif %}
-</form>
-
-
-
-
-<a href="/">Go back</a>
-
-</body>
-
-
-</html>
- -->
-{% extends "bootstrap/base.html" %} {% block title %} Register{% endblock %} {% block content %}
-
-<body style="margin-top: 5em">
     <header class="header clearfix">
-        <nav>
-            <ul class="nav nav-pills float-right">
+        <nav class="navbar" style="margin-top: 3em; padding: 0 20px 0 20px;">
+            <h2 id="navbarLink" class="text-muted" style="display: inline;"> <a id="homeLink" href="/"> PriCoSha</a></h2>
+            <ul class="nav nav-pills" style="float:right">
                 <li class="nav-items">
-                    <a class="nav-link" href="index.html"> Home </a>
-                </li>
-                <li class="nav-items">
-                    <a class="nav-link" href="regiter.html"> Register </a>
+                    <a class="nav-link" href="register.html"> Register </a>
                 </li>
                 <li class="nav-items">
                     <a class="nav-link" href="login.html"> Sign In </a>
                 </li>
             </ul>
         </nav>
-        <h2 class="text-muted"> PriCoSha</h2>
     </header>
     <h2 align=center>Register here</h2>
     <div class="container" style="max-width: 30em">

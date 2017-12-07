@@ -31,27 +31,40 @@
 
 </html> -->
 {% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %}
+<style type="text/css">
+#navbarLink {
+    color: #777 !important;
+}
+
+#homeLink:hover {
+    text-decoration: none;
+    color: #777 !important;
+}
+
+#rowHome {
+    max-width: 75em;
+    margin: 0 auto;
+    margin-top: 4em;
+}
+</style>
 
 <body>
     <header class="header clearfix">
-        <nav class="navbar" style="margin-top: 1em; padding: 0 20px 0 20px;">
-            <h2 class="text-muted" style="display: inline;"> PriCoSha</h2>
+        <nav class="navbar" style="margin-top: 3em; padding: 0 20px 0 20px;">
+            <h2 id="navbarLink" class="text-muted" style="display: inline;"> <a id="homeLink" href="/"> PriCoSha</a></h2>
             <ul class="nav nav-pills" style="float:right">
                 <li class="nav-items">
-                    <a class="nav-link" href="index.html"> Home </a>
+                    <a class="nav-link" href="/register.html"> Register </a>
                 </li>
                 <li class="nav-items">
-                    <a class="nav-link" href="regiter.html"> Register </a>
-                </li>
-                <li class="nav-items">
-                    <a class="nav-link" href="login.html"> Sign In </a>
+                    <a class="nav-link" href="/login.html"> Sign In </a>
                 </li>
             </ul>
         </nav>
     </header>
     <div class="container">
         {% if not message %}
-        <div class="jumbotron" style="margin-top:6em; text-align: center; max-width:75em;">
+        <div class="jumbotron" style="margin: 0 auto; text-align: center; max-width:75em;">
             <h1 class="display-3">PriCoSha</h1>
             <p class="lead">A simple, PriCoSha</p>
             <hr class="my-4">
@@ -63,7 +76,7 @@
                 </div>
             </p>
         </div>
-        <div class="row marketing">
+        <div id="rowHome" class="row marketing">
             <div class="col-lg-6">
                 <h4>FriendGroups</h4>
                 <p>Create groups with your friends and family!</p>

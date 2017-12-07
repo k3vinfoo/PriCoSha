@@ -1,46 +1,53 @@
-<!-- <html>
-<head>
-</head>
+ {% extends "bootstrap/base.html" %} {% block title %} Log In {% endblock %} {% block content %}
+<style type="text/css">
+#navbarLink {
+    color: #777 !important;
+}
+
+#homeLink:hover {
+    text-decoration: none;
+    color: #777 !important;
+}
+</style>
+
 <body>
-<form action="/loginAuth" method="POST">
-	<input type="text" name = "username" placeholder="username" required/> </br>
-	<input type="password" name = "password" placeholder="password" required/></br>
-	<input type="submit" value = Login />
-	{% if error %}
-		<p class="error"><strong>Error:</strong> {{error}}</p>
-	{% endif %}
-</form>
-
-<a href="/">Go back</a>
-
+    <header class="header clearfix">
+        <nav class="navbar" style="margin-top: 3em; padding: 0 20px 0 20px;">
+            <h2 id="navbarLink" class="text-muted" style="display: inline;"> <a id="homeLink" href="/"> PriCoSha</a></h2>
+            <ul class="nav nav-pills" style="float:right">
+                <li class="nav-items">
+                    <a class="nav-link" href="register.html"> Register </a>
+                </li>
+                <li class="nav-items">
+                    <a class="nav-link" href="login.html"> Sign In </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <h2 align=center>Log In </h2>
+    <div class="container">
+        <form action="/loginAuth" method="POST" style="width:25em; margin: 0 auto;">
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Error: </strong> {{error}}
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+            </div>
+            <div class="row">
+                <input type="submit" class="btn btn-primary btn-block" value="Log In">
+            </div>
+        </form>
+    </div>
 </body>
-
-
-</html> -->
-{% extends "bootstrap/base.html" %} {% block title %} Log In {% endblock %} {% block content %}
-<h2 align=center>Log In </h2>
-<div class="container">
-    <form action="/loginAuth" method="POST" style="width:25em; margin: 0 auto;">
-        {% if error %}
-        <div class="alert alert-danger" role="alert">
-            <strong>Error: </strong> {{error}}
-        </div>
-        {% endif %}
-        <div class="row">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-        </div>
-        <div class="row">
-            <input type="submit" class="btn btn-primary btn-block" value="Log In">
-        </div>
-    </form>
-</div>
 {% endblock %}
