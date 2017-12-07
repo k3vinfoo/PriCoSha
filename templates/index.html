@@ -32,10 +32,11 @@
 </html> -->
 {% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %}
 
-<body style="margin-top: 5em">
+<body>
     <header class="header clearfix">
-        <nav>
-            <ul class="nav nav-pills float-right">
+        <nav class="navbar-fixed-top">
+            <h2 class="text-muted"> PriCoSha</h2>
+            <ul class="nav nav-pills" style="float:right">
                 <li class="nav-items">
                     <a class="nav-link" href="index.html"> Home </a>
                 </li>
@@ -47,7 +48,6 @@
                 </li>
             </ul>
         </nav>
-        <h2 class="text-muted"> PriCoSha</h2>
     </header>
     <div class="container">
         {% if not message %}
