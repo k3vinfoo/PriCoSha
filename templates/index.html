@@ -31,46 +31,65 @@
 
 </html> -->
 {% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %}
-<div class="container">
-    {% if not message %}
-    <div class="jumbotron" style="margin-top:10em; text-align: center; max-width:75em;">
-        <h1 class="display-3">PriCoSha</h1>
-        <p class="lead">A simple, PriCoSha</p>
-        <hr class="my-4">
-        <p>For Anyone and Everyone</p>
-        <p class="lead">
-            <div class="btn-group" role="group">
-                <a class="btn btn-primary btn-lg" href="/register" role="button">Register</a>
-                <a class="btn btn-primary btn-lg" href="/login" role="button">Log In</a>
+
+<body style="margin-top: 5em">
+    <header class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills float-right">
+                <li class="nav-items">
+                    <a class="nav-link" href="index.html"> Home </a>
+                </li>
+                <li class="nav-items">
+                    <a class="nav-link" href="regiter.html"> Register </a>
+                </li>
+                <li class="nav-items">
+                    <a class="nav-link" href="login.html"> Sign In </a>
+                </li>
+            </ul>
+        </nav>
+        <h2 class="text-muted"> PriCoSha</h2>
+    </header>
+    <div class="container">
+        {% if not message %}
+        <div class="jumbotron" style="margin-top:6em; text-align: center; max-width:75em;">
+            <h1 class="display-3">PriCoSha</h1>
+            <p class="lead">A simple, PriCoSha</p>
+            <hr class="my-4">
+            <p>For Anyone and Everyone</p>
+            <p class="lead">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary btn-lg" href="/register" role="button">Register</a>
+                    <a class="btn btn-primary btn-lg" href="/login" role="button">Log In</a>
+                </div>
+            </p>
+        </div>
+        <div class="row marketing">
+            <div class="col-lg-6">
+                <h4>FriendGroups</h4>
+                <p>Create groups with your friends and family!</p>
+                <h4>Privacy</h4>
+                <p>Share images, posts with certain FriendGroups or people. Or you can just keep it for your own eyes.</p>
             </div>
-        </p>
-    </div>
-    <div class="row marketing">
-        <div class="col-lg-6">
-            <h4>FriendGroups</h4>
-            <p>Create groups with your friends and family!</p>
-            <h4>Privacy</h4>
-            <p>Share images, posts with certain FriendGroups or people. Or you can just keep it for your own eyes.</p>
+            <div class="col-lg-6">
+                <h4>Friends</h4>
+                <p>Connect with people from across the PriCoSha network! </p>
+                <h4>Unwanted posts?</h4>
+                <p>Had one too many that one night? Now you can quickly delete your posts!</p>
+            </div>
+            {% endif %} {% if message %}
+            <a href="/logout ">Logout</a>
+            <a href="/remove_account ">Remove Account</a>
+            <p class="message ">You are logged in {{message}}. You have {{num}} follower(s)</p>
+            </br>
+            <a href="/tweets ">View your tweets</a> </br>
+            <a href="/find_people ">Find people to follow</a> </br>
+            <a href="/unfollow ">Unfollow someone</a> </br>
+            <a href="/view_followed ">View people you have followed</a> </br>
+            </br>
+            <h4>15 most recent tweets from you and your followers </h4> </br>
+            {% for line in tweets%}
+            <p>{{line}}</p>
+            <hr> {% endfor %} {% endif %}
         </div>
-        <div class="col-lg-6">
-            <h4>Friends</h4>
-            <p>Connect with people from across the PriCoSha network! </p>
-            <h4>Unwanted posts?</h4>
-            <p>Had one too many that one night? Now you can quickly delete your posts!</p>
-        </div>
-        {% endif %} {% if message %}
-        <a href="/logout ">Logout</a>
-        <a href="/remove_account ">Remove Account</a>
-        <p class="message ">You are logged in {{message}}. You have {{num}} follower(s)</p>
-        </br>
-        <a href="/tweets ">View your tweets</a> </br>
-        <a href="/find_people ">Find people to follow</a> </br>
-        <a href="/unfollow ">Unfollow someone</a> </br>
-        <a href="/view_followed ">View people you have followed</a> </br>
-        </br>
-        <h4>15 most recent tweets from you and your followers </h4> </br>
-        {% for line in tweets%}
-        <p>{{line}}</p>
-        <hr> {% endfor %} {% endif %}
-    </div>
-    {% endblock %}
+</body>
+{% endblock %}
