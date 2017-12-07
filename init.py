@@ -43,6 +43,10 @@ def register():
 def friendgroupRoute():
 	return render_template('friendgroup.html')
 
+@app.route('/changeuser')
+def changeuserRoute():
+	return render_template('changeuser.html')
+
 #Authenticates the login
 @app.route('/loginAuth', methods=['GET', 'POST'])
 def loginAuth():
@@ -243,6 +247,18 @@ def friendGroupAuth():
 	
 	conn.commit()
 	cursor.close()
+	return redirect(url_for('home'))
+
+@app.route('/changeuser', methods=['GET', 'POST'])
+def changeuser():
+	username = session['username']
+	cursor = conn.cursor();
+	changeuser = request.form['changeuser']
+	query = 'UPDATE Person SET username = %s WHERE username = %s'
+	cursor.execute(query, (changeuser, username))
+	conn.commit()
+	cursor.close()
+	session['username'] = changeuser
 	return redirect(url_for('home'))
 
 @app.route('/logout')
