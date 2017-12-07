@@ -47,12 +47,16 @@ def friendgroupRoute():
 def changeuserRoute():
 	return render_template('changeuser.html')
 
+@app.route('/changepass')
+def changepassRoute():
+	return render_template('changepass.html')
+
 #Authenticates the login
 @app.route('/loginAuth', methods=['GET', 'POST'])
 def loginAuth():
 	#grabs information from the forms
 	username = request.form['username']
-	password = hashlib.md5(request.form['password']).hexdigest()
+	password = hashlib.sha1(request.form['password']).hexdigest()
 	#cursor used to send queries
 	cursor = conn.cursor()
 	#executes query
@@ -79,7 +83,7 @@ def loginAuth():
 def registerAuth():
 	#grabs information from the forms
 	username = request.form['username']
-	password = hashlib.md5(request.form['password']).hexdigest()
+	password = hashlib.sha1(request.form['password']).hexdigest()
 	firstname = request.form['firstname']
 	lastname = request.form['lastname']
 
@@ -106,7 +110,7 @@ def registerAuth():
 @app.route('/home', methods=['GET', 'POST'])
 def home():
 	username = session['username']
-	cursor = conn.cursor();
+	cursor = conn.cursor()
 	#get posts this user should be seeing
 	query = 'SELECT id, username, timest, content_name, public FROM Content WHERE id IN (SELECT id FROM Member NATURAL JOIN Share WHERE Member.username = %s) OR \
 			 public = 1 OR username = %s OR id IN (SELECT id FROM Tag WHERE username_taggee = %s AND status = 1)\
@@ -116,21 +120,21 @@ def home():
 	cursor.close()
 
 	#get posts that the user was tagged in that they have not approved yet
-	cursor = conn.cursor();
+	cursor = conn.cursor()
 	query = 'SELECT id, username, timest, content_name FROM Content WHERE id IN (SELECT id FROM Tag WHERE username_taggee = %s AND status = 0)'
 	cursor.execute(query, (username))
 	managetags = cursor.fetchall()
 	cursor.close()
 
 	#get tag information for all posts
-	cursor = conn.cursor();
+	cursor = conn.cursor()
 	query = 'SELECT id, username_taggee FROM Tag WHERE status = 1'
 	cursor.execute(query)
 	tagData = cursor.fetchall()
 	cursor.close()
 
 	#get comment information for all posts
-	cursor = conn.cursor();
+	cursor = conn.cursor() 
 	query = 'SELECT id, username, comment_text, timest FROM Comment'
 	cursor.execute(query)
 	commentData = cursor.fetchall()
@@ -158,7 +162,7 @@ def home():
 		if key.isdigit():
 			contentID = key
 	if (tagged != "" and contentID != ""):
-		cursor = conn.cursor();
+		cursor = conn.cursor() 
 		checker = 'SELECT * FROM Tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s'
 		cursor.execute(checker, (contentID, username, tagged))
 		checked = cursor.fetchone()
@@ -181,7 +185,7 @@ def home():
 @app.route('/post', methods=['GET', 'POST'])
 def post():
 	username = session['username']
-	cursor = conn.cursor();
+	cursor = conn.cursor() 
 	content = request.form['content']
 	public = request.form['pubPriv'] 
 	filepath = request.form['filepath']
@@ -223,7 +227,7 @@ def rejecttag(contentID):
 # 	# groupname = session['groupname']
 # 	# username = session['username']
 # 	# description = session ['description']
-# 	# cursor = conn.cursor();
+# 	# cursor = conn.cursor() 
 # 	# query = 'INSERT INTO FriendGroup VALUES (%s, %s, %s)'
 # 	# conn.commit()
 # 	# cursor.close()
@@ -232,7 +236,7 @@ def rejecttag(contentID):
 @app.route('/friendGroupAuth', methods=['GET','POST'])
 def friendGroupAuth():
 	username = session['username']
-	cursor = conn.cursor();
+	cursor = conn.cursor() 
 	groupname = request.form['groupname']
 	description = request.form['desc']
 	#create friendgroup and set curr username as owner
@@ -252,13 +256,35 @@ def friendGroupAuth():
 @app.route('/changeuser', methods=['GET', 'POST'])
 def changeuser():
 	username = session['username']
-	cursor = conn.cursor();
+	cursor = conn.cursor() 
 	changeuser = request.form['changeuser']
 	query = 'UPDATE Person SET username = %s WHERE username = %s'
 	cursor.execute(query, (changeuser, username))
 	conn.commit()
 	cursor.close()
 	session['username'] = changeuser
+	return redirect(url_for('home'))
+
+@app.route('/changepass', methods=['GET', 'POST'])
+def changepass():
+	username = session['username']
+	currentpass = hashlib.sha1(request.form['currentpass']).hexdigest()
+	changepass = hashlib.sha1(request.form['newpass']).hexdigest()
+	cursor = conn.cursor()
+	query = 'SELECT * FROM Person WHERE password = %s'
+	cursor.execute(query, currentpass)
+	passdata = cursor.fetchone()
+	cursor.close()
+	error = None
+	if (passdata):
+		cursor = conn.cursor()
+		query = 'UPDATE Person SET password = %s WHERE username = %s'
+		cursor.execute(query, (changepass, username))
+		conn.commit()
+		cursor.close()
+	else:
+		error = "Incorrect password"
+		return render_template('changepass.html', error = error)
 	return redirect(url_for('home'))
 
 @app.route('/logout')
