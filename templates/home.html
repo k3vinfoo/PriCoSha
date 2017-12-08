@@ -26,6 +26,10 @@
 .dropdown-menu {
     left: -60px !important;
 }
+
+.lightlyPadded {
+    padding: 0 5px 0 5px;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -197,8 +201,8 @@ $(document).ready(function() {
                             <td>{{line.timest}}</td>
                             <td>{{line.content_name}}
                                 <td>
-                                    <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
-                                    <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
+                                    <a class="btn lightlyPadded" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
+                                    <a class="btn lightlyPadded" role="btn" href="/rejecttag/{{line.id}}">No</a>
                                 </td>
                         </tr>
                         {% endfor%}
