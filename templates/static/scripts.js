@@ -3,7 +3,7 @@ function getId(element) {
     var form = document.getElementById('formCont');
     var hiddenContentIDInput = document.createElement("input");
     hiddenContentIDInput.type = "hidden";
-    hiddenContentIDInput.name = idClicked;
+    hiddenContentIDInput.name = 'idClicked';
     hiddenContentIDInput.value = element.id;
     form.appendChild(hiddenContentIDInput);
 }
