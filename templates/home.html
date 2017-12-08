@@ -240,7 +240,7 @@ $(document).ready(function() {
                 <br/> {% endfor %}
             </div>
         </div>
-        <div class="row">
+        <div class="container">
             <h3>Post Information</h3> {% if posts %}
             <table class="table table-bordered table-hover">
                 <thead>
@@ -312,12 +312,81 @@ $(document).ready(function() {
                 </tbody>
             </table>
             {% else %} {{"No Posts Visible"}} {% endif %}
-            <!-- <div class="container">
-    <a class="btn btn-info" href="/changeuser">Change Username</a>
-    <a class="btn btn-info" href="/changepass">Change Password</a>
-    <a class="btn btn-info" href="/logout">Logout</a>
-</div> -->
         </div>
+        <!-- <div class="row">
+            <h3>Post Information</h3> {% if posts %}
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Post ID</th>
+                        <th>Username</th>
+                        <th>Time</th>
+                        <th>Post</th>
+                        <th>Status</th>
+                        <th>Tagged</th>
+                        <th>Comments</th>
+                        <th>Delete?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in posts %}
+                    <tr id={{line.id}} data-toggle="modal" data-target="#tag-modal" onmouseover="" style="cursor: pointer " onclick="getId(this)">
+                        <td>{{line.id}}</td>
+                        <td>{{line.username}}</td>
+                        <td>{{line.timest}}</td>
+                        <td>{{line.content_name}}</td>
+                        <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
+                        <td>
+                            {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
+                            {% endif %} {%endfor%}
+                        </td>
+                        <td>
+                            {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
+                            {% endif %} {%endfor%}
+                        </td>
+                        <td>
+                            {% if username == line.username %}
+                            <a class="btn" role="btn" href="/deletepost/{{line.id}}">Delete</a> {% else %} Not Owner {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor%}
+                
+                    <div class="modal fade" id="tag-modal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Add Tags</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times </span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/home" method="POST" id="formCont">
+                                        {% if error %}
+                                        <div class="alert alert-danger" role="alert">
+                                            <strong>Error: </strong> {{error}}
+                                        </div>
+                                        {% endif %}
+                                        <div id="tagUsersContainer">
+                                            <div class="form-group" id="tagUsersForm">
+                                                <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
+                                            </div>
+                                        </div>
+                                        <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+        <!-- End of tag modal -->
+        </tbody>
+        </table>
+        {% else %} {{"No Posts Visible"}} {% endif %}
+    </div> -->
     </div>
 </body>
 {% endblock %}
