@@ -136,6 +136,13 @@ def home():
 	tagData = cursor.fetchall()
 	cursor.close()
 
+	#posts that user is tagged in only
+	cursor = conn.cursor()
+	query = 'SELECT id, username, timest, content_name FROM Content WHERE id IN (SELECT id FROM Tag WHERE username_taggee = %s AND status = 1)'
+	cursor.execute(query, (username))
+	taggedindata = cursor.fetchall()
+	cursor.close()
+
 	#get comment information for all posts
 	cursor = conn.cursor() 
 	query = 'SELECT id, username, comment_text, timest FROM Comment'
@@ -172,7 +179,7 @@ def home():
 		error = None
 		if (checked):
 			error = "This user is already tagged"
-			return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, commentData=commentData, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, error = error)
+			return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, commentData=commentData, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, taggedindata=taggedindata, error = error)
 		cursor.close()
 
 		cursor = conn.cursor()
@@ -182,7 +189,7 @@ def home():
 		cursor.close()
 
 	#render home.html and pass info info the html for parsing
-	return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, commentData=commentData)
+	return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, commentData=commentData, taggedindata=taggedindata)
 
 		
 @app.route('/post', methods=['GET', 'POST'])
@@ -247,6 +254,16 @@ def deletepost(contentID):
 	cursor = conn.cursor()
 	query = 'DELETE FROM Content WHERE id = %s'
 	cursor.execute(query, (contentID))
+	conn.commit()
+	cursor.close()
+	return redirect(url_for('home'))
+
+@app.route('/untag/<contentID>')
+def untag(contentID):
+	username = session['username']
+	cursor = conn.cursor()
+	query = 'DELETE FROM Tag WHERE id = %s and username_taggee = %s'
+	cursor.execute(query, (contentID, username))
 	conn.commit()
 	cursor.close()
 	return redirect(url_for('home'))
