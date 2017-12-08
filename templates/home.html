@@ -14,6 +14,10 @@
     background-color: grey;
     color: #000000;
 }
+
+.dropdown-menu {
+    left: -60px !important;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -33,69 +37,71 @@ $(document).ready(function() {
                 <li class="nav-items dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" data-toggle="modal" data-target="#username-modal">Change Username</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#password-modal">Change Password</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#username-modal">Change Username</a>
+                            <!-- Start of change Username Modal  -->
+                            <div class="modal fade" id="username-modal">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title">Change Username</h3>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times </span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/changeuser" method="POST" id="formCont">
+                                                {% if error %}
+                                                <div class="alert alert-danger" role="alert">
+                                                    <strong>Error: </strong> {{error}}
+                                                </div>
+                                                {% endif %}
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="usrnameNew" placeholder="New Username" required style="margin-bottom: 5px">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Confirm</button>
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of change username modal -->
+                        </li>
+                        <li><a href="#" data-toggle="modal" data-target="#password-modal">Change Password</a>
+                            <!-- Start of change Password Modal -->
+                            <div class="modal fade" id="password-modal">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title">Change Password</h3>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times </span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/changeuser" method="POST" id="formCont">
+                                                {% if error %}
+                                                <div class="alert alert-danger" role="alert">
+                                                    <strong>Error: </strong> {{error}}
+                                                </div>
+                                                {% endif %}
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" name="passNew" placeholder="New Password" required style="margin-bottom: 5px">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Confirm</button>
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of change password modal -->
+                        </li>
                         <li><a href="/logout">Log Out</a></li>
-                        <!-- Start of change Username Modal  -->
-                        <div class="modal fade" id="username-modal">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title">Change Username</h3>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times </span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="/changeuser" method="POST" id="formCont">
-                                            {% if error %}
-                                            <div class="alert alert-danger" role="alert">
-                                                <strong>Error: </strong> {{error}}
-                                            </div>
-                                            {% endif %}
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="usrnameNew" placeholder="New Username" required style="margin-bottom: 5px">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Confirm</button>
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of change username modal -->
-                        <!-- Start of change Password Modal -->
-                        <div class="modal fade" id="password-modal">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title">Change Password</h3>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times </span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="/changeuser" method="POST" id="formCont">
-                                            {% if error %}
-                                            <div class="alert alert-danger" role="alert">
-                                                <strong>Error: </strong> {{error}}
-                                            </div>
-                                            {% endif %}
-                                            <div class="form-group">
-                                                <input type="password" class="form-control" name="passNew" placeholder="New Password" required style="margin-bottom: 5px">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Confirm</button>
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of change password modal -->
                     </ul>
                 </li>
             </ul>
