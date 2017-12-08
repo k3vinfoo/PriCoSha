@@ -40,7 +40,7 @@ $(document).ready(function() {
             <h2 id="navbarLink" class="text-muted" style="display: inline;"> <a id="homeLink" href="/"> PriCoSha</a></h2>
             <ul class="nav nav-pills" style="float:right">
                 <li class="nav-items">
-                    <a class="nav-link" href="/home"> {{firstname}}'s Page </a>
+                    <a class="nav-link" href="/home"> {{username}}'s Page </a>
                 </li>
                 <li class="nav-items dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Settings <span class="caret"></span></a>
@@ -73,7 +73,7 @@ $(document).ready(function() {
                         </div>
                         {% endif %}
                         <div class="form-group">
-                            <input type="text" class="form-control" name="usrnameNew" placeholder="New Username" required style="margin-bottom: 5px">
+                            <input type="text" class="form-control" id="changeuser" name="changeuser" placeholder="New Username" required style="margin-bottom: 5px">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Confirm</button>
@@ -103,7 +103,8 @@ $(document).ready(function() {
                         </div>
                         {% endif %}
                         <div class="form-group">
-                            <input type="password" class="form-control" name="passNew" placeholder="New Password" required style="margin-bottom: 5px">
+                            <input type="password" class="form-control" id="currentpass" name="currentpass" placeholder="Current Password" required>
+                            <input type="password" class="form-control" id="newpass" name="newpass" placeholder="New Password" required style="margin-bottom: 5px">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Confirm</button>
@@ -117,7 +118,7 @@ $(document).ready(function() {
     <!-- End of change password modal -->
     <div class="container">
         <h2 align=center>Welcome, {{username}}</h2>
-        <div class="container">
+        <div class="row">
             <form action="/post" method="POST" id="postForm">
                 {% if error %}
                 <div class="alert alert-danger" role="alert">
@@ -170,147 +171,147 @@ $(document).ready(function() {
                     </div>
                 </div>
             </form>
-            <div class="row">
-                <div class="col-sm-6">
-                    <h3>Manage Tags</h3> {% if managetags %}
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <th colspan="5" style="text-align:center">Approve/Deny Tags</th>
-                        </thead>
-                        <thead>
-                            <tr>
-                                <th>Post ID</th>
-                                <th>Username</th>
-                                <th>Time</th>
-                                <th>Post</th>
-                                <th>Approve?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for line in managetags %}
-                            <tr id={{line.id}}>
-                                <td>{{line.id}}</td>
-                                <td>{{line.username}}</td>
-                                <td>{{line.timest}}</td>
-                                <td>{{line.content_name}}
-                                    <td>
-                                        <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
-                                        <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
-                                    </td>
-                            </tr>
-                            {% endfor%}
-                        </tbody>
-                    </table>
-                    {% endif %} {% if taggedindata %}
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <th colspan="5" style="text-align:center">Posts You're Tagged In</th>
-                        </thead>
-                        <thead>
-                            <tr>
-                                <th>Post ID</th>
-                                <th>Username</th>
-                                <th>Time</th>
-                                <th>Post</th>
-                                <th>Untag?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for line in taggedindata %}
-                            <tr id={{line.id}}>
-                                <td>{{line.id}}</td>
-                                <td>{{line.username}}</td>
-                                <td>{{line.timest}}</td>
-                                <td>{{line.content_name}}
-                                    <td>
-                                        <a class="btn" role="btn" href="/untag/{{line.id}}">Untag</a>
-                                    </td>
-                            </tr>
-                            {% endfor%}
-                        </tbody>
-                    </table>
-                    {% endif %} {% if not managetags %} {{"No Tags to Manage"}} {% endif %}
-                </div>
-                <div class="col-sm-6">
-                    <h3 style="display: inline-block;"> Friend Groups </h3>
-                    <a style="float: right;" class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
-                    <br/> {% endfor %} {% for fgmember in fgmemberdata %} {{fgmember.group_name}}{{" (member)"}}
-                    <br/> {% endfor %}
-                </div>
-            </div>
-            <div class="row">
-                <h3>Post Information</h3> {% if posts %}
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Manage Tags</h3> {% if managetags %}
                 <table class="table table-bordered table-hover">
+                    <thead>
+                        <th colspan="5" style="text-align:center">Approve/Deny Tags</th>
+                    </thead>
                     <thead>
                         <tr>
                             <th>Post ID</th>
                             <th>Username</th>
                             <th>Time</th>
                             <th>Post</th>
-                            <th>Status</th>
-                            <th>Tagged</th>
-                            <th>Comments</th>
-                            <th>Delete?</th>
+                            <th>Approve?</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for line in posts %}
-                        <tr id={{line.id}} data-toggle="modal" data-target="#tag-modal" onmouseover="" style="cursor: pointer " onclick="getId(this)">
+                        {% for line in managetags %}
+                        <tr id={{line.id}}>
                             <td>{{line.id}}</td>
                             <td>{{line.username}}</td>
                             <td>{{line.timest}}</td>
-                            <td>{{line.content_name}}</td>
-                            <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
-                            <td>
-                                {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
-                                {% endif %} {%endfor%}
-                            </td>
-                            <td>
-                                {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
-                                {% endif %} {%endfor%}
-                            </td>
-                            <td>
-                                {% if username == line.username %}
-                                <a class="btn" role="btn" href="/deletepost/{{line.id}}">Delete</a> {% else %} Not Owner {% endif %}
-                            </td>
+                            <td>{{line.content_name}}
+                                <td>
+                                    <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
+                                    <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
+                                </td>
                         </tr>
                         {% endfor%}
-                        <div class="modal fade" id="tag-modal">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title">Add Tags</h3>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times </span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="/home" method="POST" id="formCont">
-                                            {% if error %}
-                                            <div class="alert alert-danger" role="alert">
-                                                <strong>Error: </strong> {{error}}
+                    </tbody>
+                </table>
+                {% endif %} {% if taggedindata %}
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <th colspan="5" style="text-align:center">Posts You're Tagged In</th>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th>Post ID</th>
+                            <th>Username</th>
+                            <th>Time</th>
+                            <th>Post</th>
+                            <th>Untag?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for line in taggedindata %}
+                        <tr id={{line.id}}>
+                            <td>{{line.id}}</td>
+                            <td>{{line.username}}</td>
+                            <td>{{line.timest}}</td>
+                            <td>{{line.content_name}}
+                                <td>
+                                    <a class="btn" role="btn" href="/untag/{{line.id}}">Untag</a>
+                                </td>
+                        </tr>
+                        {% endfor%}
+                    </tbody>
+                </table>
+                {% endif %} {% if not managetags %} {{"No Tags to Manage"}} {% endif %}
+            </div>
+            <div class="col-sm-6">
+                <h3> Friend Groups </h3>
+                <a style="position:absolute;top:0; right:0; margin-top: 3px;" class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
+                <br/> {% endfor %} {% for fgmember in fgmemberdata %} {{fgmember.group_name}}{{" (member)"}}
+                <br/> {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <h3>Post Information</h3> {% if posts %}
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Post ID</th>
+                        <th>Username</th>
+                        <th>Time</th>
+                        <th>Post</th>
+                        <th>Status</th>
+                        <th>Tagged</th>
+                        <th>Comments</th>
+                        <th>Delete?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in posts %}
+                    <tr id={{line.id}} data-toggle="modal" data-target="#tag-modal" onmouseover="" style="cursor: pointer " onclick="getId(this)">
+                        <td>{{line.id}}</td>
+                        <td>{{line.username}}</td>
+                        <td>{{line.timest}}</td>
+                        <td>{{line.content_name}}</td>
+                        <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
+                        <td>
+                            {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
+                            {% endif %} {%endfor%}
+                        </td>
+                        <td>
+                            {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
+                            {% endif %} {%endfor%}
+                        </td>
+                        <td>
+                            {% if username == line.username %}
+                            <a class="btn" role="btn" href="/deletepost/{{line.id}}">Delete</a> {% else %} Not Owner {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor%}
+                    <div class="modal fade" id="tag-modal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Add Tags</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times </span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/home" method="POST" id="formCont">
+                                        {% if error %}
+                                        <div class="alert alert-danger" role="alert">
+                                            <strong>Error: </strong> {{error}}
+                                        </div>
+                                        {% endif %}
+                                        <div id="tagUsersContainer">
+                                            <div class="form-group" id="tagUsersForm">
+                                                <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
                                             </div>
-                                            {% endif %}
-                                            <div id="tagUsersContainer">
-                                                <div class="form-group" id="tagUsersForm">
-                                                    <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
-                                                </div>
-                                            </div>
-                                            <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
-                                            <!-- <button type="button" class="btn btn-info" onclick="addForms()"> Add More</button> -->
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                        <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
+                                        <!-- <button type="button" class="btn btn-info" onclick="addForms()"> Add More</button> -->
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </tbody>
-                </table>
-                {% else %} {{"No Posts Visible"}} {% endif %}
-            </div>
+                    </div>
+                </tbody>
+            </table>
+            {% else %} {{"No Posts Visible"}} {% endif %}
             <!-- <div class="container">
     <a class="btn btn-info" href="/changeuser">Change Username</a>
     <a class="btn btn-info" href="/changepass">Change Password</a>
