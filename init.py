@@ -145,7 +145,7 @@ def home():
 
 	#groups that user is owner of
 	cursor = conn.cursor()
-	query = 'SELECT DISTINCT group_name FROM Member WHERE username_creator = %s'
+	query = 'SELECT DISTINCT group_name, username_creator FROM Member WHERE username_creator = %s'
 	cursor.execute(query, (username))
 	fgownerdata = cursor.fetchall()
 	cursor.close()
