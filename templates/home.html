@@ -240,7 +240,7 @@ $(document).ready(function() {
             </div>
             <div class="col-sm-6">
                 <h3> Friend Groups </h3>
-                <a style="position:absolute;top:0; right:0; margin-top: 3px;" class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
+                <a style="position:absolute;top:0; right:0; margin-top: 20px;" class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
                 <br/> {% endfor %} {% for fgmember in fgmemberdata %} {{fgmember.group_name}}{{" (member)"}}
                 <br/> {% endfor %}
             </div>
