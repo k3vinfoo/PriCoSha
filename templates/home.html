@@ -40,10 +40,10 @@ $(document).ready(function() {
             <h2 id="navbarLink" class="text-muted" style="display: inline;"> <a id="homeLink" href="/"> PriCoSha</a></h2>
             <ul class="nav nav-pills" style="float:right">
                 <li class="nav-items">
-                    <a class="nav-link" href="/home"> {{username}}'s Page </a>
+                    <a class="nav-link" href="/home"> {{firstname}}'s Page </a>
                 </li>
                 <li class="nav-items dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings <span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Settings <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#" data-toggle="modal" data-target="#username-modal">Change Username</a>
                         </li>
@@ -232,13 +232,13 @@ $(document).ready(function() {
                     {% endif %} {% if not managetags %} {{"No Tags to Manage"}} {% endif %}
                 </div>
                 <div class="col-sm-6">
-                    <h3> Friend Groups </h3> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
+                    <h3 style="display: inline-block;"> Friend Groups </h3>
+                    <a style="float: right;" class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
                     <br/> {% endfor %} {% for fgmember in fgmemberdata %} {{fgmember.group_name}}{{" (member)"}}
                     <br/> {% endfor %}
-                    <a class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a>
                 </div>
             </div>
-            <div class="container">
+            <div class="row">
                 <h3>Post Information</h3> {% if posts %}
                 <table class="table table-bordered table-hover">
                     <thead>
