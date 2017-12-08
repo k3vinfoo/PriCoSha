@@ -1,13 +1,30 @@
-<style type="text/css">
+<style>
 #navbarLink {
     color: #777 !important;
+}
+
+.modal-title {
+    display: inline-block !important;
 }
 
 #homeLink:hover {
     text-decoration: none;
     color: #777 !important;
 }
+
+.navbar {
+    margin-top: 0em !important;
+}
+
+.dropdown-menu {
+    left: -60px !important;
+}
 </style>
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".dropdown-toggle").dropdown();
+});
+</script>
 <header class="header clearfix">
     <nav class="navbar" style="margin-top: 1em; padding: 0 20px 0 20px;">
         <h2 id="navbarLink" class="text-muted" style="display: inline;"> <a id="homeLink" href="/"> PriCoSha</a></h2>
@@ -16,14 +33,75 @@
                 <a class="nav-link" href="/home"> {{username}}'s Page </a>
             </li>
             <li class="nav-items dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
-        <span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Change Username</a></li>
-                    <li><a href="#">Change Password</a></li>
-                    <li><a href="#">Log Out</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#username-modal">Change Username</a>
+                    </li>
+                    <li><a href="#" data-toggle="modal" data-target="#password-modal">Change Password</a>
+                    </li>
+                    <li><a href="/logout">Log Out</a></li>
                 </ul>
             </li>
         </ul>
     </nav>
 </header>
+<!-- Start of change Username Modal  -->
+<div class="modal fade" id="username-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Username</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times </span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/changeuser" method="POST" id="formCont">
+                    {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Error: </strong> {{error}}
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="usrnameNew" placeholder="New Username" required style="margin-bottom: 5px">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of change username modal -->
+<!-- Start of change Password Modal -->
+<div class="modal fade" id="password-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Password</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times </span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/changeuser" method="POST" id="formCont">
+                    {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Error: </strong> {{error}}
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="passNew" placeholder="New Password" required style="margin-bottom: 5px">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of change password modal -->

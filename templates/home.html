@@ -5,6 +5,10 @@
     color: #777 !important;
 }
 
+.modal-title {
+    display: inline-block !important;
+}
+
 #homeLink:hover {
     text-decoration: none;
     color: #777 !important;
@@ -13,6 +17,10 @@
 .selected {
     background-color: grey;
     color: #000000;
+}
+
+.navbar {
+    margin-top: 0em !important;
 }
 
 .dropdown-menu {
@@ -125,7 +133,7 @@ $(document).ready(function() {
                     <label class="radio-inline">
                         <input type="radio" name="pubPriv" value="False">Private
                     </label>
-                    <input type="submit" class="btn btn-primary btn-block" value="Post">
+                    <input style="margin-top:1em;" type="submit" class="btn btn-primary btn-block" value="Post">
                     <!-- Modal -->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
@@ -163,10 +171,11 @@ $(document).ready(function() {
                 </div>
             </form>
             <div class="container">
-                <h3>Manage Tags</h3>
-                {% if managetags %}
+                <h3>Manage Tags</h3> {% if managetags %}
                 <table class="table table-bordered table-hover">
-                    <thead><th colspan="5" style="text-align:center">Approve/Deny Tags</th></thead>
+                    <thead>
+                        <th colspan="5" style="text-align:center">Approve/Deny Tags</th>
+                    </thead>
                     <thead>
                         <tr>
                             <th>Post ID</th>
@@ -183,18 +192,19 @@ $(document).ready(function() {
                             <td>{{line.username}}</td>
                             <td>{{line.timest}}</td>
                             <td>{{line.content_name}}
-                            <td>
-                                <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
-                                <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
-                            </td>
+                                <td>
+                                    <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
+                                    <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
+                                </td>
                         </tr>
                         {% endfor%}
                     </tbody>
                 </table>
-                {% endif %}
-                {% if taggedindata %}
+                {% endif %} {% if taggedindata %}
                 <table class="table table-bordered table-hover">
-                    <thead><th colspan="5" style="text-align:center">Posts You're Tagged In</th></thead>
+                    <thead>
+                        <th colspan="5" style="text-align:center">Posts You're Tagged In</th>
+                    </thead>
                     <thead>
                         <tr>
                             <th>Post ID</th>
@@ -211,17 +221,14 @@ $(document).ready(function() {
                             <td>{{line.username}}</td>
                             <td>{{line.timest}}</td>
                             <td>{{line.content_name}}
-                            <td>
-                                <a class="btn" role="btn" href="/untag/{{line.id}}">Untag</a>
-                            </td>
+                                <td>
+                                    <a class="btn" role="btn" href="/untag/{{line.id}}">Untag</a>
+                                </td>
                         </tr>
                         {% endfor%}
                     </tbody>
                 </table>
-                {% endif %}
-                {% if not managetags %}
-                {{"No Tags to Manage"}}
-                {% endif %}
+                {% endif %} {% if not managetags %} {{"No Tags to Manage"}} {% endif %}
             </div>
             <div class="container">
                 <h3> Friend Groups </h3> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
