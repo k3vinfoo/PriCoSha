@@ -241,6 +241,16 @@ def rejecttag(contentID):
 	cursor.close()
 	return redirect(url_for('home'))
 
+@app.route('/deletepost/<contentID>')
+def deletepost(contentID):
+	username = session['username']
+	cursor = conn.cursor()
+	query = 'DELETE FROM Content WHERE id = %s'
+	cursor.execute(query, (contentID))
+	conn.commit()
+	cursor.close()
+	return redirect(url_for('home'))
+
 # @app.route('/friendGroupAuth')
 # def friendGroupAuth():
 # 	# groupname = session['groupname']

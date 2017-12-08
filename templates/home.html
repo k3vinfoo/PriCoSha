@@ -121,8 +121,10 @@
                     <td>{{line.username}}</td>
                     <td>{{line.timest}}</td>
                     <td>{{line.content_name}}
-                    <td><a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
-                        <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a></td>
+                    <td>
+                        <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
+                        <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
+                    </td>
                 </tr>
                 {% endfor%}
             </tbody>
@@ -155,6 +157,7 @@
                     <th>Status</th>
                     <th>Tagged</th>
                     <th>Comments</th>
+                    <th>Delete?</th>
                 </tr>
             </thead>
             <tbody>
@@ -172,6 +175,13 @@
                     <td>
                         {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
                         {% endif %} {%endfor%}
+                    </td>
+                    <td>
+                        {% if username == line.username %}
+                        <a class="btn" role="btn" href="/deletepost/{{line.id}}">Delete</a>
+                        {% else %}
+                        Not Owner
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor%}
