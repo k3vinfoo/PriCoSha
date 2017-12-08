@@ -1,0 +1,29 @@
+<style type="text/css">
+#navbarLink {
+    color: #777 !important;
+}
+
+#homeLink:hover {
+    text-decoration: none;
+    color: #777 !important;
+}
+</style>
+<header class="header clearfix">
+    <nav class="navbar" style="margin-top: 1em; padding: 0 20px 0 20px;">
+        <h2 id="navbarLink" class="text-muted" style="display: inline;"> <a id="homeLink" href="/"> PriCoSha</a></h2>
+        <ul class="nav nav-pills" style="float:right">
+            <li class="nav-items">
+                <a class="nav-link" href="/home"> {{username}}'s Page </a>
+            </li>
+            <li class="nav-items dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
+        <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Change Username</a></li>
+                    <li><a href="#">Change Password</a></li>
+                    <li><a href="#">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>

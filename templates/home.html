@@ -1,41 +1,14 @@
-<!-- <html>
-<head>
-</head>
-<body>
-<form action="/post" method="POST">
-    <h1>Welcome {{username}}</h1> 
-    <input type="text" name = "blog" placeholder="post" required/> </br>
-    <input type="submit" value = Post />
-</form>
-
-<style type="text/css">
-    table, th, td{
-        border: 1px solid black 
-    }
-</style>
-
-<table>
-    <th>Time</th>
-    <th>Post</th>
-
-{% for line in posts %}
-    <tr>
-        <td>{{line.timest}}</td>
-        <td>{{line.content_name}}</td>
-    </tr>
-{% endfor %}
-</table>
-
-<a href="/logout">Logout</a>
-
-</body>
-
-
-</html>
- -->
-{% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %} {% block scripts %} {{ super() }}
+ {% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %} {% block scripts %} {{ super() }}
 <script src="{{url_for('static', filename='scripts.js')}}"></script>
-<style> 
+<style>
+#navbarLink {
+    color: #777 !important;
+}
+
+#homeLink:hover {
+    text-decoration: none;
+    color: #777 !important;
+}
 
 .selected {
     background-color: grey;
@@ -43,192 +16,256 @@
 }
 </style>
 {% endblock %}
-<div class="container">
-    <h2 align=center>Welcome, {{username}}</h2>
-    <div class="container">
-        <form action="/post" method="POST" id="postForm">
-            {% if error %}
-            <div class="alert alert-danger" role="alert">
-                <strong>Error: </strong> {{error}}
-            </div>
-            {% endif %}
-            <div class="form-group">
-                <input type="text" class="form-control" id="content" name="content" placeholder="Content Title" required style="margin-bottom: 5px">
-                <input type="text" class="form-control" id="filepath" name="filepath" placeholder="Filepath" required style="margin-bottom: 5px">
-                <label class="radio-inline">
-                    <input type="radio" name="pubPriv" value="True" checked>Public
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="pubPriv" value="False">Private
-                </label>
-            <input type="submit" class="btn btn-primary btn-block" value="Post">
-            <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Share with FriendGroup: </h4>
-                      </div>
-                      <div class="modal-body" style="text-align:center;">
-                        {% if fgownerdata %}
-                        <table id ="shareFriendGroupTable" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Friend Group Name</th>
-<!--                                     <th>Members</th> -->
-                                    <th>Owner</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for line in fgownerdata %}
-                                <tr id={{line.group_name}}{{line.username_creator}}>
-                                    <td>{{line.group_name}}</td>
-                                    <td>{{line.username_creator}}</td>
-<!--                                     <td>{{line.timest}}</td>
-                                    <td>{{line.content_name}}</td> -->
-                                </tr>
-                                {% endfor%}
-                           </tbody>
-                        </table>
-                        <input class="btn btn-primary" type="button" name="shareTo" id="shareTo" value="Confirm" data-dismiss="modal"/>
-                        {% else %}
-                        {{"You have no friend groups to share content with :("}}
-                        {% endif %}
-                      </div>
-                </div>
-            </div>
-        </div>
-        </form>
-    </div>
-    <div class="container">
-        <h3>Manage Tags</h3>
-        {% if managetags %}
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Post ID</th>
-                    <th>Username</th>
-                    <th>Time</th>
-                    <th>Post</th>
-                    <th>Approve?</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for line in managetags %}
-                <tr id={{line.id}}>
-                    <td>{{line.id}}</td>
-                    <td>{{line.username}}</td>
-                    <td>{{line.timest}}</td>
-                    <td>{{line.content_name}}
-                    <td>
-                        <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
-                        <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
-                    </td>
-                </tr>
-                {% endfor%}
-            </tbody>
-        </table>
-        {% else %}
-        {{"No Tags to Manage"}}
-        {% endif %}
 
-    </div>
+<body>
+    <header class="header clearfix">
+        <nav class="navbar" style="margin-top: 1em; padding: 0 20px 0 20px;">
+            <h2 id="navbarLink" class="text-muted" style="display: inline;"> <a id="homeLink" href="/"> PriCoSha</a></h2>
+            <ul class="nav nav-pills" style="float:right">
+                <li class="nav-items">
+                    <a class="nav-link" href="/home"> {{username}}'s Page </a>
+                </li>
+                <li class="nav-items dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings
+        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-toggle="modal" data-target="#username-modal">Change Username</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#password-modal">Change Password</a></li>
+                        <li><a href="/logout">Log Out</a></li>
+                        <!-- Start of change Username Modal  -->
+                        <div class="modal fade" id="username-modal">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Change Username</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times </span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/changeuser" method="POST" id="formCont">
+                                            {% if error %}
+                                            <div class="alert alert-danger" role="alert">
+                                                <strong>Error: </strong> {{error}}
+                                            </div>
+                                            {% endif %}
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="usrnameNew" placeholder="New Username" required style="margin-bottom: 5px">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Confirm</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of change username modal -->
+                        <!-- Start of change Password Modal -->
+                        <div class="modal fade" id="password-modal">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Change Password</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times </span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/changeuser" method="POST" id="formCont">
+                                            {% if error %}
+                                            <div class="alert alert-danger" role="alert">
+                                                <strong>Error: </strong> {{error}}
+                                            </div>
+                                            {% endif %}
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" name="passNew" placeholder="New Password" required style="margin-bottom: 5px">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Confirm</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of change password modal -->
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
     <div class="container">
-        <h3> Friend Groups </h3>
-        {% for fgowner in fgownerdata %}
-        {{fgowner.group_name}}{{" (owner)"}}<br/>
-        {% endfor %}
-        {% for fgmember in fgmemberdata %}
-        {{fgmember.group_name}}{{" (member)"}}<br/>
-        {% endfor %}
-        <a class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a>
-    </div>
-    <div class="container">
-        <h3>Post Information</h3>
-        {% if posts %}
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Post ID</th>
-                    <th>Username</th>
-                    <th>Time</th>
-                    <th>Post</th>
-                    <th>Status</th>
-                    <th>Tagged</th>
-                    <th>Comments</th>
-                    <th>Delete?</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for line in posts %}
-                <tr id={{line.id}} data-toggle="modal" data-target="#tag-modal" onmouseover="" style="cursor: pointer " onclick="getId(this)">
-                    <td>{{line.id}}</td>
-                    <td>{{line.username}}</td>
-                    <td>{{line.timest}}</td>
-                    <td>{{line.content_name}}</td>
-                    <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
-                    <td>
-                        {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
-                        {% endif %} {%endfor%}
-                    </td>
-                    <td>
-                        {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
-                        {% endif %} {%endfor%}
-                    </td>
-                    <td>
-                        {% if username == line.username %}
-                        <a class="btn" role="btn" href="/deletepost/{{line.id}}">Delete</a>
-                        {% else %}
-                        Not Owner
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor%}
-                <div class="modal fade" id="tag-modal">
+        <h2 align=center>Welcome, {{username}}</h2>
+        <div class="container">
+            <form action="/post" method="POST" id="postForm">
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error: </strong> {{error}}
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <input type="text" class="form-control" id="content" name="content" placeholder="Content Title" required style="margin-bottom: 5px">
+                    <input type="text" class="form-control" id="filepath" name="filepath" placeholder="Filepath" required style="margin-bottom: 5px">
+                    <label class="radio-inline">
+                        <input type="radio" name="pubPriv" value="True" checked>Public
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="pubPriv" value="False">Private
+                    </label>
+                    <input type="submit" class="btn btn-primary btn-block" value="Post">
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title">Add Tags</h3>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times </span>
-                                    </button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Share with FriendGroup: </h4>
                                 </div>
-                                <div class="modal-body">
-                                    <form action="/home" method="POST" id="formCont">
-                                        {% if error %}
-                                        <div class="alert alert-danger" role="alert">
-                                            <strong>Error: </strong> {{error}}
-                                        </div>
-                                        {% endif %}
-                                        <div id="tagUsersContainer">
-                                            <div class="form-group" id="tagUsersForm">
-                                                <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
-                                            </div>
-                                        </div>
-                                        <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
-                                        <!-- <button type="button" class="btn btn-info" onclick="addForms()"> Add More</button> -->
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
-                                        </div>
-                                    </form>
+                                <div class="modal-body" style="text-align:center;">
+                                    {% if fgownerdata %}
+                                    <table id="shareFriendGroupTable" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Friend Group Name</th>
+                                                <!--                                     <th>Members</th> -->
+                                                <th>Owner</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for line in fgownerdata %}
+                                            <tr id={{line.group_name}}{{line.username_creator}}>
+                                                <td>{{line.group_name}}</td>
+                                                <td>{{line.username_creator}}</td>
+                                                <!--                                     <td>{{line.timest}}</td>
+                                    <td>{{line.content_name}}</td> -->
+                                            </tr>
+                                            {% endfor%}
+                                        </tbody>
+                                    </table>
+                                    <input class="btn btn-primary" type="button" name="shareTo" id="shareTo" value="Confirm" data-dismiss="modal" /> {% else %} {{"You have no friend groups to share content with :("}} {% endif %}
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
-
-            </tbody>
-        </table>
-        {% else %}
-        {{"No Posts Visible"}}
-        {% endif %}
+                </div>
+            </form>
+            <div class="container">
+                <h3>Manage Tags</h3> {% if managetags %}
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Post ID</th>
+                            <th>Username</th>
+                            <th>Time</th>
+                            <th>Post</th>
+                            <th>Approve?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for line in managetags %}
+                        <tr id={{line.id}}>
+                            <td>{{line.id}}</td>
+                            <td>{{line.username}}</td>
+                            <td>{{line.timest}}</td>
+                            <td>{{line.content_name}}</td>
+                            <td>
+                                <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
+                                <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
+                            </td>
+                        </tr>
+                        {% endfor%}
+                    </tbody>
+                </table>
+                {% else %} {{"No Tags to Manage"}} {% endif %}
+            </div>
+            <div class="container">
+                <h3> Friend Groups </h3> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
+                <br/> {% endfor %} {% for fgmember in fgmemberdata %} {{fgmember.group_name}}{{" (member)"}}
+                <br/> {% endfor %}
+                <a class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a>
+            </div>
+            <div class="container">
+                <h3>Post Information</h3> {% if posts %}
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Post ID</th>
+                            <th>Username</th>
+                            <th>Time</th>
+                            <th>Post</th>
+                            <th>Status</th>
+                            <th>Tagged</th>
+                            <th>Comments</th>
+                            <th>Delete?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for line in posts %}
+                        <tr id={{line.id}} data-toggle="modal" data-target="#tag-modal" onmouseover="" style="cursor: pointer " onclick="getId(this)">
+                            <td>{{line.id}}</td>
+                            <td>{{line.username}}</td>
+                            <td>{{line.timest}}</td>
+                            <td>{{line.content_name}}</td>
+                            <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
+                            <td>
+                                {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
+                                {% endif %} {%endfor%}
+                            </td>
+                            <td>
+                                {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
+                                {% endif %} {%endfor%}
+                            </td>
+                            <td>
+                                {% if username == line.username %}
+                                <a class="btn" role="btn" href="/deletepost/{{line.id}}">Delete</a> {% else %} Not Owner {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor%}
+                        <div class="modal fade" id="tag-modal">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Add Tags</h3>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times </span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/home" method="POST" id="formCont">
+                                            {% if error %}
+                                            <div class="alert alert-danger" role="alert">
+                                                <strong>Error: </strong> {{error}}
+                                            </div>
+                                            {% endif %}
+                                            <div id="tagUsersContainer">
+                                                <div class="form-group" id="tagUsersForm">
+                                                    <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
+                                                </div>
+                                            </div>
+                                            <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
+                                            <!-- <button type="button" class="btn btn-info" onclick="addForms()"> Add More</button> -->
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tbody>
+                </table>
+                {% else %} {{"No Posts Visible"}} {% endif %}
+            </div>
+            <!-- <div class="container">
+    <a class="btn btn-info" href="/changeuser">Change Username</a>
+    <a class="btn btn-info" href="/changepass">Change Password</a>
+    <a class="btn btn-info" href="/logout">Logout</a>
+</div> -->
+        </div>
     </div>
-    <div class="container">
-        <a class="btn btn-info" href="/changeuser">Change Username</a>
-        <a class="btn btn-info" href="/changepass">Change Password</a>
-        <a class="btn btn-info" href="/logout">Logout</a>
-    </div>
-</div>
+</body>
 {% endblock %}
