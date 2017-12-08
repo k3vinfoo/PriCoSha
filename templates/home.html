@@ -231,7 +231,7 @@ $(document).ready(function() {
                         {% endfor%}
                     </tbody>
                 </table>
-                {% endif %} {% if not managetags %} {{"No Tags to Manage"}} {% endif %}
+                {% endif %} {% if not managetags and not taggedindata %} {{"No Tags to Manage"}} {% endif %}
             </div>
             <div class="col-sm-6">
                 <h3> Friend Groups </h3>
