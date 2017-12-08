@@ -112,10 +112,13 @@ def home():
 	username = session['username']
 	cursor = conn.cursor()
 	#get posts this user should be seeing
-	query = 'SELECT id, username, timest, content_name, public FROM Content WHERE id IN (SELECT id FROM Member NATURAL JOIN Share WHERE Member.username = %s) OR \
-			 public = 1 OR username = %s OR id IN (SELECT id FROM Tag WHERE username_taggee = %s AND status = 1)\
-			 ORDER BY timest DESC'
-	cursor.execute(query, (username, username, username))
+	query = 'SELECT id, username, timest, content_name, public FROM Content WHERE id IN \
+	(SELECT id FROM Member NATURAL JOIN Share WHERE Member.username = %s) OR public = 1 OR username = %s OR \
+	id IN (SELECT id FROM Tag WHERE username_taggee = %s AND status = 1) \
+	OR %s in (SELECT username FROM Member WHERE group_name IN \
+	(SELECT group_name FROM Member WHERE username=%s)) ORDER BY timest DESC'
+
+	cursor.execute(query, (username, username, username, username, username))
 	data = cursor.fetchall()
 	cursor.close()
 
@@ -159,8 +162,8 @@ def home():
 	for key in request.form:
 		if key == 'tags':
 			tagged = request.form[key]
-		if key.isdigit():
-			contentID = key
+		if key == 'idClicked':
+			contentID = request.form[key]
 	if (tagged != "" and contentID != ""):
 		cursor = conn.cursor() 
 		checker = 'SELECT * FROM Tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s'
@@ -194,10 +197,26 @@ def post():
 		public = True
 	else:
 		public = False
-	
+
 	query = 'INSERT INTO content (content_name, username, file_path, public) VALUES (%s, %s, %s, %s)'
 
 	cursor.execute(query, (content, username, filepath, public))
+
+	maxValQuery = 'SELECT MAX(id) FROM Content'
+	cursor.execute(maxValQuery)
+	maxVal = cursor.fetchone()
+	maxVal = maxVal['MAX(id)']
+
+	if (public == False):
+		groupNames = request.form['groupNames']
+		listOfGroupNames = groupNames.split(',')
+		cursor = conn.cursor()
+		for group in listOfGroupNames:
+			print(group)
+			query = 'INSERT INTO Share (id, group_name, username) VALUES (%s, %s, %s)'
+			cursor.execute(query, (maxVal, group, username))
+		
+
 	conn.commit()
 	cursor.close()
 	return redirect(url_for('home'))

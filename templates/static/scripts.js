@@ -3,7 +3,8 @@ function getId(element) {
     var form = document.getElementById('formCont');
     var hiddenContentIDInput = document.createElement("input");
     hiddenContentIDInput.type = "hidden";
-    hiddenContentIDInput.name = element.id;
+    hiddenContentIDInput.name = idClicked;
+    hiddenContentIDInput.value = element.id;
     form.appendChild(hiddenContentIDInput);
 }
 
@@ -57,3 +58,32 @@ function addFields() {
     submitButton.value = "Create";
     mainContainer.append(submitButton);
 }
+
+$('input[name="pubPriv"]').change(function() {
+   if($(this).is(':checked') && $(this).val() == 'False') {
+        $('#myModal').modal('show');
+   }
+});
+
+$("#shareFriendGroupTable tr").click(function(){
+   $(this).toggleClass('selected');    
+   var value=$(this).find('td:first').html();
+   console.log(value);
+});
+
+$('#shareTo').on('click', function(e){
+    var selected = [];
+    $("#shareFriendGroupTable tr.selected").each(function(){
+        selected.push($('td:first', this).html());
+    });
+    var form = document.getElementById('postForm');
+    var hiddenContentIDInput = document.createElement("input");
+    hiddenContentIDInput.type = "hidden";
+    hiddenContentIDInput.name = 'groupNames';
+    hiddenContentIDInput.value = selected;
+    form.appendChild(hiddenContentIDInput);
+    console.log(selected);
+});
+
+
+

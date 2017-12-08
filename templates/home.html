@@ -35,11 +35,18 @@
  -->
 {% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %} {% block scripts %} {{ super() }}
 <script src="{{url_for('static', filename='scripts.js')}}"></script>
+<style> 
+
+.selected {
+    background-color: grey;
+    color: #000000;
+}
+</style>
 {% endblock %}
 <div class="container">
     <h2 align=center>Welcome, {{username}}</h2>
     <div class="container">
-        <form action="/post" method="POST">
+        <form action="/post" method="POST" id="postForm">
             {% if error %}
             <div class="alert alert-danger" role="alert">
                 <strong>Error: </strong> {{error}}
@@ -54,8 +61,44 @@
                 <label class="radio-inline">
                     <input type="radio" name="pubPriv" value="False">Private
                 </label>
-            </div>
             <input type="submit" class="btn btn-primary btn-block" value="Post">
+            <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Share with FriendGroup: </h4>
+                      </div>
+                      <div class="modal-body" style="text-align:center;">
+                        {% if fgownerdata %}
+                        <table id ="shareFriendGroupTable" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Friend Group Name</th>
+<!--                                     <th>Members</th> -->
+                                    <th>Owner</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for line in fgownerdata %}
+                                <tr id={{line.group_name}}{{line.username_creator}}>
+                                    <td>{{line.group_name}}</td>
+                                    <td>{{line.username_creator}}</td>
+<!--                                     <td>{{line.timest}}</td>
+                                    <td>{{line.content_name}}</td> -->
+                                </tr>
+                                {% endfor%}
+                           </tbody>
+                        </table>
+                        <input class="btn btn-primary" type="button" name="shareTo" id="shareTo" value="Confirm" data-dismiss="modal"/>
+                        {% else %}
+                        {{"You have no friend groups to share content with :("}}
+                        {% endif %}
+                      </div>
+                </div>
+            </div>
+        </div>
         </form>
     </div>
     <div class="container">
