@@ -304,11 +304,23 @@ def changeuser():
 	username = session['username']
 	cursor = conn.cursor() 
 	changeuser = request.form['changeuser']
-	query = 'UPDATE Person SET username = %s WHERE username = %s'
-	cursor.execute(query, (changeuser, username))
+	query = 'SELECT * FROM Person WHERE username = %s'
+	cursor.execute(query, (changeuser))
+	checkuser = cursor.fetchone()
 	conn.commit()
 	cursor.close()
-	session['username'] = changeuser
+	error = None
+	if (checkuser):
+		error = "This username is already taken"
+		return render_template('changeuser.html', error = error)
+	else:
+		cursor = conn.cursor() 
+		changeuser = request.form['changeuser']
+		query = 'UPDATE Person SET username = %s WHERE username = %s'
+		cursor.execute(query, (changeuser, username))
+		conn.commit()
+		cursor.close()
+		session['username'] = changeuser
 	return redirect(url_for('home'))
 
 @app.route('/changepass', methods=['GET', 'POST'])
