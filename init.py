@@ -214,6 +214,7 @@ def post():
 	maxVal = cursor.fetchone()
 	maxVal = maxVal['MAX(id)']
 
+
 	if (public == False):
 		groupNames = request.form['groupNames']
 		listOfGroupNames = groupNames.split(',')
@@ -226,7 +227,7 @@ def post():
 
 	conn.commit()
 	cursor.close()
-	return redirect(url_for('home'))
+	return redirect(url_for('home'), filepath=file_path)
 
 @app.route('/approvetag/<contentID>')
 def approvetag(contentID):
