@@ -154,7 +154,7 @@
                         <td>{{line.username}}</td>
                         <td>{{line.timest}}</td>
                         <td>{{line.content_name}}
-                            <img class="viewImg" src="{{line.file_path}}">
+                            <img class="viewImg" src={{url_for(line.file_path)}}>
                         </td>
                         <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
                         <td>
