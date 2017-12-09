@@ -5,6 +5,10 @@
     background-color: grey;
     color: #000000;
 }
+
+.viewImg {
+    width: 50%;
+}
 </style>
 {% endblock %}
 <div class="container">
@@ -25,7 +29,7 @@
                 <label class="radio-inline">
                     <input type="radio" name="pubPriv" value="False">Private
                 </label>
-                <input type="submit" class="btn btn-primary btn-block" value="Post">
+                <input id="postBtn" type="submit" class="btn btn-primary btn-block" value="Post">
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
@@ -149,7 +153,9 @@
                         <td>{{line.id}}</td>
                         <td>{{line.username}}</td>
                         <td>{{line.timest}}</td>
-                        <td>{{line.content_name}}</td>
+                        <td>{{line.content_name}}
+                            <img class="viewImg" src="{{line.file_path}}">
+                        </td>
                         <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
                         <td>
                             {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>

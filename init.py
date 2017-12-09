@@ -333,6 +333,8 @@ def changepass():
 		return render_template('changepass.html', error = error)
 	return redirect(url_for('home'))
 
+
+
 @app.route('/logout')
 def logout():
 	session.pop('username')

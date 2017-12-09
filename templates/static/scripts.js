@@ -60,20 +60,20 @@ function addFields() {
 }
 
 $('input[name="pubPriv"]').change(function() {
-   if($(this).is(':checked') && $(this).val() == 'False') {
+    if ($(this).is(':checked') && $(this).val() == 'False') {
         $('#myModal').modal('show');
-   }
+    }
 });
 
-$("#shareFriendGroupTable tr").click(function(){
-   $(this).toggleClass('selected');    
-   var value=$(this).find('td:first').html();
-   console.log(value);
+$("#shareFriendGroupTable tr").click(function() {
+    $(this).toggleClass('selected');
+    var value = $(this).find('td:first').html();
+    console.log(value);
 });
 
-$('#shareTo').on('click', function(e){
+$('#shareTo').on('click', function(e) {
     var selected = [];
-    $("#shareFriendGroupTable tr.selected").each(function(){
+    $("#shareFriendGroupTable tr.selected").each(function() {
         selected.push($('td:first', this).html());
     });
     var form = document.getElementById('postForm');
@@ -85,5 +85,8 @@ $('#shareTo').on('click', function(e){
     console.log(selected);
 });
 
-
-
+$('#postBtn').on('click', function() {
+    filepath = $('#filepath')
+    line = ` <img class="viewImg" src="` + filepath + `">`
+    console.log(line)
+});
