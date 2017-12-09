@@ -141,6 +141,7 @@
                         <th>Username</th>
                         <th>Time</th>
                         <th>Post</th>
+                        <th>Picture</th>
                         <th>Status</th>
                         <th>Tagged</th>
                         <th>Comments</th>
@@ -153,9 +154,8 @@
                         <td>{{line.id}}</td>
                         <td>{{line.username}}</td>
                         <td>{{line.timest}}</td>
-                        <td>{{line.content_name}}
-                            <img class="viewImg" src="{{line.file_path}}">
-                        </td>
+                        <td>{{line.content_name}}</td>
+                        <td><img class="viewImg" src="{{line.file_path}}"></td>
                         <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
                         <td>
                             {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
