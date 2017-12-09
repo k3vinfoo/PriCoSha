@@ -26,10 +26,6 @@
 .dropdown-menu {
     left: -60px !important;
 }
-
-.lightlyPadded {
-    padding: 0 5px 0 5px;
-}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -201,8 +197,8 @@ $(document).ready(function() {
                             <td>{{line.timest}}</td>
                             <td>{{line.content_name}}
                                 <td>
-                                    <a class="btn lightlyPadded" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
-                                    <a class="btn lightlyPadded" role="btn" href="/rejecttag/{{line.id}}">No</a>
+                                    <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
+                                    <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
                                 </td>
                         </tr>
                         {% endfor%}
@@ -240,7 +236,7 @@ $(document).ready(function() {
             </div>
             <div class="col-sm-6">
                 <h3> Friend Groups </h3>
-                <a style="position:absolute;top:0; right:0; margin-top: 20px;" class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
+                <a style="position:absolute;top:0; right:0; margin-top: 3px;" class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
                 <br/> {% endfor %} {% for fgmember in fgmemberdata %} {{fgmember.group_name}}{{" (member)"}}
                 <br/> {% endfor %}
             </div>
