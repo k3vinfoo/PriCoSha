@@ -1,123 +1,12 @@
-{% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %} {% block scripts %} {{ super() }}
+ {% extends "bootstrap/base.html" %} {% block title %} Home {% endblock %} {% block content %} {% block scripts %} {{ super() }}
 <script src="{{url_for('static', filename='scripts.js')}}"></script>
 <style>
-#navbarLink {
-    color: #777 !important;
-}
-
-.modal-title {
-    display: inline-block !important;
-}
-
-#homeLink:hover {
-    text-decoration: none;
-    color: #777 !important;
-}
-
 .selected {
     background-color: grey;
     color: #000000;
 }
-
-.navbar {
-    margin-bottom: 0em !important;
-}
-
-.dropdown-menu {
-    left: -60px !important;
-}
-
-.lightlyPadded {
-    padding: 0 5px 0 5px;
-}
 </style>
-<script type="text/javascript">
-$(document).ready(function() {
-    $(".dropdown-toggle").dropdown();
-});
-</script>
 {% endblock %}
-<header class="header clearfix">
-    <nav class="navbar" style="margin-top: 1em; padding: 0 20px 0 20px;">
-        <h2 id="navbarLink" class="text-muted" style="display: inline;"> <a id="homeLink" href="/"> PriCoSha</a></h2>
-        <ul class="nav nav-pills" style="float:right">
-            <li class="nav-items">
-                <a class="nav-link" href="/home"> {{username}}'s Page </a>
-            </li>
-            <li class="nav-items dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Settings <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#" data-toggle="modal" data-target="#username-modal">Change Username</a>
-                    </li>
-                    <li><a href="#" data-toggle="modal" data-target="#password-modal">Change Password</a>
-                    </li>
-                    <li><a href="/logout">Log Out</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-</header>
-<!-- Start of change Username Modal  -->
-<div class="modal fade" id="username-modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Change Username</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times </span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="/changeuser" method="POST" id="formCont">
-                    {% if error %}
-                    <div class="alert alert-danger" role="alert">
-                        <strong>Error: </strong> {{error}}
-                    </div>
-                    {% endif %}
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="changeuser" name="changeuser" placeholder="New Username" required style="margin-bottom: 5px">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Confirm</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of change username modal -->
-<!-- Start of change Password Modal -->
-<div class="modal fade" id="password-modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Change Password</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times </span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="/changeuser" method="POST" id="formCont">
-                    {% if error %}
-                    <div class="alert alert-danger" role="alert">
-                        <strong>Error: </strong> {{error}}
-                    </div>
-                    {% endif %}
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="currentpass" name="currentpass" placeholder="Current Password" required>
-                        <input type="password" class="form-control" id="newpass" name="newpass" placeholder="New Password" required style="margin-bottom: 5px">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Confirm</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of change password modal -->
 <div class="container">
     <h2 align=center>Welcome, {{username}}</h2>
     <div class="container">
@@ -177,6 +66,9 @@ $(document).ready(function() {
             <h3>Manage Tags</h3> {% if managetags %}
             <table class="table table-bordered table-hover">
                 <thead>
+                    <th colspan="5" style="text-align:center">Approve/Deny Tags</th>
+                </thead>
+                <thead>
                     <tr>
                         <th>Post ID</th>
                         <th>Username</th>
@@ -193,14 +85,42 @@ $(document).ready(function() {
                         <td>{{line.timest}}</td>
                         <td>{{line.content_name}}
                             <td>
-                                <a class="btn" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
-                                <a class="btn" role="btn" href="/rejecttag/{{line.id}}">No</a>
+                                <a class="btn lightlyPadded" role="btn" href="/approvetag/{{line.id}}">Yes</a>/
+                                <a class="btn lightlyPadded" role="btn" href="/rejecttag/{{line.id}}">No</a>
                             </td>
                     </tr>
                     {% endfor%}
                 </tbody>
             </table>
-            {% else %} {{"No Tags to Manage"}} {% endif %}
+            {% endif %} {% if taggedindata %}
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <th colspan="5" style="text-align:center">Posts You're Tagged In</th>
+                </thead>
+                <thead>
+                    <tr>
+                        <th>Post ID</th>
+                        <th>Username</th>
+                        <th>Time</th>
+                        <th>Post</th>
+                        <th>Untag?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in taggedindata %}
+                    <tr id={{line.id}}>
+                        <td>{{line.id}}</td>
+                        <td>{{line.username}}</td>
+                        <td>{{line.timest}}</td>
+                        <td>{{line.content_name}}
+                            <td>
+                                <a class="btn" role="btn" href="/untag/{{line.id}}">Untag</a>
+                            </td>
+                    </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+            {% endif %} {% if not managetags and not taggedindata %} {{"No Tags to Manage"}} {% endif %}
         </div>
         <div class="container">
             <h3> Friend Groups </h3> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
@@ -267,6 +187,7 @@ $(document).ready(function() {
                                             </div>
                                         </div>
                                         <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
+                                        <!-- <button type="button" class="btn btn-info" onclick="addForms()"> Add More</button> -->
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
@@ -280,6 +201,10 @@ $(document).ready(function() {
             </table>
             {% else %} {{"No Posts Visible"}} {% endif %}
         </div>
+        <div class="container">
+            <a class="btn btn-info" href="/changeuser">Change Username</a>
+            <a class="btn btn-info" href="/changepass">Change Password</a>
+            <a class="btn btn-info" href="/logout">Logout</a>
+        </div>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
