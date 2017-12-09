@@ -112,7 +112,7 @@ def home():
 	username = session['username']
 	cursor = conn.cursor()
 	#get posts this user should be seeing
-	query = 'SELECT id, username, timest, content_name, public FROM Content WHERE id IN \
+	query = 'SELECT id, username, timest, content_name, public, file_path FROM Content WHERE id IN \
 	(SELECT id FROM Member NATURAL JOIN Share WHERE Member.username = %s) OR public = 1 OR username = %s OR \
 	id IN (SELECT id FROM Tag WHERE username_taggee = %s AND status = 1) \
 	OR %s in (SELECT username FROM Member WHERE group_name IN \
