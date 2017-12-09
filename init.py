@@ -227,7 +227,7 @@ def post():
 
 	conn.commit()
 	cursor.close()
-	return redirect(url_for('home'), filepath=file_path)
+	return redirect(url_for('home'))
 
 @app.route('/approvetag/<contentID>')
 def approvetag(contentID):
