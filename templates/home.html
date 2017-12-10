@@ -155,18 +155,18 @@
                 </thead>
                 <tbody>
                     {% for line in posts %}
-                    <tr id={{line.id}} data-toggle="modal" data-target="#tag-modal" onmouseover="" style="cursor: pointer " onclick="getId(this)">
+                    <tr id={{line.id}}>
                         <td>{{line.id}}</td>
                         <td>{{line.username}}</td>
                         <td>{{line.timest}}</td>
                         <td>{{line.content_name}}</td>
                         <td><img class="viewImg" src="{{line.file_path}}"></td>
                         <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
-                        <td>
+                        <td data-toggle="modal" data-target="#tag-modal" onclick="getId(this)" onmouseover="">
                             {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
                             {% endif %} {%endfor%}
                         </td>
-                        <td>
+                        <td data-toggle="modal" data-target="#comment-modal">
                             {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
                             {% endif %} {%endfor%}
                         </td>
@@ -180,40 +180,50 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title">Options</h3>
+                                    <h3 class="modal-title">Tags</h3>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times </span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div id="modalBtnCont">
-                                        <button class="btn btn-primary" id="tagBtn"> Tag </button>
-                                        <button class="btn btn-primary" id="commentBtn"> Comment </button>
-                                    </div>
                                     <form action="/home" method="POST" id="formCont">
                                         {% if error %}
                                         <div class="alert alert-danger" role="alert">
                                             <strong>Error: </strong> {{error}}
                                         </div>
                                         {% endif %}
-                                        <div id="parentTagCont">
-                                            <div id="tagUsersContainer">
-                                                <div class="form-group" id="tagUsersForm">
-                                                    <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
-                                                </div>
-                                            </div>
-                                            <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
-                                        </div>
-                                        <div id="parentCommentCont">
-                                            <div id="commentFormCont">
-                                                <div class="form-group" id="commentForm">
-                                                    <input type="text" class="form-control" name="tags" placeholder="Comment here" required style="margin-bottom: 5px">
-                                                </div>
+                                        <div id="tagUsersContainer">
+                                            <div class="form-group" id="tagUsersForm">
+                                                <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
                                             </div>
                                         </div>
+                                        <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary" onclick="newModal();">Submit</button>
                                             <button type="button" class="btn btn-danger" onclick="newModal();" data-dismiss="modal">Exit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="comment-modal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Comment</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times </span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/home" method="POST" id="formCont">
+                                        <div class="form-group" id="commentForm">
+                                            <input type="text" class="form-control" name="comment" placeholder="Comment here" required style="margin-bottom: 5px">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
                                         </div>
                                     </form>
                                 </div>
