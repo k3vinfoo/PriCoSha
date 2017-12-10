@@ -9,6 +9,11 @@
 .viewImg {
     width: 50%;
 }
+
+#parentTagCont,
+#parentCommentCont {
+    display: none;
+}
 </style>
 {% endblock %}
 <div class="container">
@@ -180,44 +185,35 @@
                                         <span aria-hidden="true">&times </span>
                                     </button>
                                 </div>
-                                <div class="modal-body" id="optionsBlock">
-                                    <button class="btn btn-primary" id="tagBtn"> Tag </button>
-                                    <button class="btn btn-primary" id="commentBtn"> Comment </button>
-                                </div>
-                                <div class="modal-body" id="tagBlock" style="display: none;">
+                                <div class="modal-body">
+                                    <div id="modalBtnCont">
+                                        <button class="btn btn-primary" id="tagBtn"> Tag </button>
+                                        <button class="btn btn-primary" id="commentBtn"> Comment </button>
+                                    </div>
                                     <form action="/home" method="POST" id="formCont">
                                         {% if error %}
                                         <div class="alert alert-danger" role="alert">
                                             <strong>Error: </strong> {{error}}
                                         </div>
                                         {% endif %}
-                                        <div id="tagUsersContainer">
-                                            <div class="form-group" id="tagUsersForm">
-                                                <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
+                                        <div id="parentTagCont">
+                                            <div id="tagUsersContainer">
+                                                <div class="form-group" id="tagUsersForm">
+                                                    <input type="text" class="form-control" name="tags" placeholder="Tag a user" required style="margin-bottom: 5px">
+                                                </div>
                                             </div>
+                                            <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
                                         </div>
-                                        <a href="#" id="btnMore" class="btn btn-info" onclick="addForms()">Add More</a>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-body" id="commentBlock" style="display: none;">
-                                    <form action="/home" method="POST" id="formCont">
-                                        {% if error %}
-                                        <div class="alert alert-danger" role="alert">
-                                            <strong>Error: </strong> {{error}}
-                                        </div>
-                                        {% endif %}
-                                        <div id="tagUsersContainer">
-                                            <div class="form-group" id="tagUsersForm">
-                                                <input type="text" class="form-control" name="tags" placeholder="Comment here" required style="margin-bottom: 5px">
+                                        <div id="parentCommentCont">
+                                            <div id="commentFormCont">
+                                                <div class="form-group" id="commentForm">
+                                                    <input type="text" class="form-control" name="tags" placeholder="Comment here" required style="margin-bottom: 5px">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Comment</button>
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
+                                            <button type="submit" class="btn btn-primary" onclick="newModal();">Submit</button>
+                                            <button type="button" class="btn btn-danger" onclick="newModal();" data-dismiss="modal">Exit</button>
                                         </div>
                                     </form>
                                 </div>

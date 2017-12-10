@@ -59,6 +59,25 @@ function addFields() {
     mainContainer.append(submitButton);
 }
 
+function newModal() {
+    console.log('clicked');
+    window.location.reload();
+
+    // var comment = document.getElementById('#parentCommentCont');
+    // var tag = document.getElementById('#parentTagCont');
+    // var btns = document.getElementById('#modalBtnCont');
+    // if (comment.style.display == "block") {
+    //     comment.style.display = "none";
+    // }
+    // if (tag.style.display == "block") {
+    //     tag.style.display = "none";
+    // }
+    // if (btns.style.display == "none") {
+    //     btns.style.display = "block";
+    // }
+
+
+}
 $('input[name="pubPriv"]').change(function() {
     if ($(this).is(':checked') && $(this).val() == 'False') {
         $('#myModal').modal('show');
@@ -103,14 +122,16 @@ $('#postBtn').on('click', function() {
     console.log(line)
 });
 
-$('#tagBtn').on('click', function() {
-    alert('tag btn');
-    $('#optionsBlock').css('display', 'none');
-    $('#tagUsersContainer').css('display', 'block');
-});
+$('#tagBtn').click(function() {
+    if ($('#modalBtnCont').css('display') == 'none')
+        $('#modalBtnCont').css('display', 'block');
 
-$('#commentBtn').on('click', function() {
-    alert('clicked btn')
-    $('#optionsBlock').css('display', 'none');
-    $('#commentBlock').css('display', 'block');
+    $('#modalBtnCont').css('display', 'none');
+    $('#parentTagCont').css('display', 'block');
+});
+$('#commentBtn').click(function() {
+    if ($('#modalBtnCont').css('display') == 'none')
+        $('#modalBtnCont').css('display', 'block');
+    $('#modalBtnCont').css('display', 'none');
+    $('#parentCommentCont').css('display', 'block');
 });
