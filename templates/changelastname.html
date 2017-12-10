@@ -1,0 +1,23 @@
+{% extends "bootstrap/base.html" %} {% block title %} Change username {% endblock %} {% block content %} {% block scripts %} {{ super() }}
+<script src="{{url_for('static', filename='scripts.js')}}"></script>
+{% endblock %}
+<h2 align="center">Change Your Last Name</h2>
+<div class="container">
+    <form action="/changelastname" method="POST">
+    	{% if error %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Error: </strong> {{error}}
+        </div>
+        {% endif %}
+        <div class="form-lastname">
+            <label for="changelastname">New Last Name</label>
+            <input type="text" class="form-control" id="changelastname" name="changelastname" required><br/>
+
+
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        
+        
+    </form>
+</div>
+{% endblock %}

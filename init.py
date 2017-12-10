@@ -63,6 +63,14 @@ def changeuserRoute():
 def changepassRoute():
 	return render_template('changepass.html')
 
+@app.route('/changefirstname')
+def changefirstnameRoute():
+	return render_template('changefirstname.html')
+
+@app.route('/changelastname')
+def changelastnameRoute():
+	return render_template('changelastname.html')
+
 #Authenticates the login
 @app.route('/loginAuth', methods=['GET', 'POST'])
 def loginAuth():
@@ -399,7 +407,27 @@ def changepass():
 		return render_template('changepass.html', error = error)
 	return redirect(url_for('home'))
 
+@app.route('/changefirstname', methods=['GET', 'POST'])
+def changefirstname():
+	username = session['username']
+	cursor = conn.cursor() 
+	changefirstname = request.form['changefirstname']
+	query = 'UPDATE Person SET first_name = %s WHERE username = %s'
+	cursor.execute(query, (changefirstname, username))
+	conn.commit()
+	cursor.close()
+	return redirect(url_for('home'))
 
+@app.route('/changelastname', methods=['GET', 'POST'])
+def changelastname():
+	username = session['username']
+	cursor = conn.cursor() 
+	changelastname = request.form['changelastname']
+	query = 'UPDATE Person SET last_name = %s WHERE username = %s'
+	cursor.execute(query, (changelastname, username))
+	conn.commit()
+	cursor.close()
+	return redirect(url_for('home'))
 
 @app.route('/logout')
 def logout():
