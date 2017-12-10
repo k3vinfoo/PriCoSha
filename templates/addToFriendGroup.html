@@ -1,0 +1,67 @@
+ {% extends "bootstrap/base.html" %} {% block title %} Friend Group {% endblock %} {% block content %} {% block scripts %} {{ super() }}
+<script src="{{url_for('static', filename='scripts.js')}}"></script>
+<style>
+.selected {
+    background-color: grey;
+    color: #000000;
+}
+</style>
+{% endblock %}
+<h2 align="center">Add to a Friend Group</h2>
+<div class="container">
+    <form action="/addToFriendGroupAuth" method="POST" id="formContainer">
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Error: </strong> {{error}}
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="groupname">Groupname</label>
+            {% if fgownerdata %}
+                <table id="shareFriendGroupTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Friend Group Name</th>
+                            <!--                                     <th>Members</th> -->
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for line in fgownerdata %}
+                        <tr id={{line.group_name}}{{line.username_creator}}>
+                            <td>{{line.group_name}}</td>
+                            <td>{{line.username_creator}}</td>
+                            <!--                                     <td>{{line.timest}}</td>
+                    <td>{{line.content_name}}</td> -->
+                        </tr>
+                        {% endfor%}
+                    </tbody>
+                </table>
+                {% else %} {{"You have no friend groups to share content with :("}} {% endif %}
+        </div>
+        <div id="checkMember" class="form-group">
+            {% if fullname %}
+            <label for="First Name">First Name</label>
+            <input type="text" class="form-control" id="memberFirstName" name="memberFirstName" required>
+            <label for="Last Name">Last Name</label>
+            <input type="text" class="form-control" id="memberLastName" name="memberLastName" required>
+            <input type="hidden" class="form-control" id="fullname" name="fullname" value = {{fullname}}>
+            {% else %}
+            <label for="First Name">Username</label>
+            <input type="text" class="form-control" id="addUsername" name="addUsername" required>
+            <input type="hidden" class="form-control" id="fullname" name="fullname" value = {{fullname}}>
+            {%endif%}
+        </div>
+<!--         <div class="form-group">
+            <label for="Username">Username</label>
+            <input type="text" class="form-control" id="addUsername" name="addUsername" required>
+        </div> -->
+        {%if fullname %}
+        <input class="btn btn-primary" type="submit" name="addTo" id="addTo" value="Proceed"/>
+        {%else %} 
+        <input class="btn btn-primary" type="submit" name="addTo" id="addTo" value="Confirm"/>
+        {%endif%}
+
+    </form>
+    </div>
+    {% endblock %}

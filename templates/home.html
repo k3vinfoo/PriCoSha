@@ -130,7 +130,7 @@
             <h3> Friend Groups </h3> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
             <br/> {% endfor %} {% for fgmember in fgmemberdata %} {{fgmember.group_name}}{{" (member)"}}
             <br/> {% endfor %}
-            <a class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a>
+            <a class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a> <a class="btn btn-primary" role="btn" href="/addToFriendGroup"> Add To Friend Group </a>
         </div>
         <div class="container">
             <h3>Post Information</h3> {% if posts %}

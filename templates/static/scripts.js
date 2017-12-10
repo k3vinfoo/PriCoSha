@@ -70,7 +70,19 @@ $("#shareFriendGroupTable tr").click(function() {
     var value = $(this).find('td:first').html();
     console.log(value);
 });
-
+$('#addTo').on('click', function(e) {
+    var selected = [];
+    $("#shareFriendGroupTable tr.selected").each(function() {
+        selected.push($('td:first', this).html());
+    });
+    var form = document.getElementById('formContainer');
+    var hiddenContentIDInput = document.createElement("input");
+    hiddenContentIDInput.type = "hidden";
+    hiddenContentIDInput.name = 'groupNames';
+    hiddenContentIDInput.value = selected;
+    form.appendChild(hiddenContentIDInput);
+    console.log(selected);
+});
 $('#shareTo').on('click', function(e) {
     var selected = [];
     $("#shareFriendGroupTable tr.selected").each(function() {

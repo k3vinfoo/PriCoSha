@@ -1,5 +1,5 @@
 #Import Flask Library
-from flask import Flask, render_template, request, session, url_for, redirect
+from flask import Flask, flash, render_template, request, session, url_for, redirect
 import pymysql.cursors
 from flask_bootstrap import Bootstrap 
 import hashlib
@@ -42,6 +42,18 @@ def register():
 @app.route('/friendgroup')
 def friendgroupRoute():
 	return render_template('friendgroup.html')
+
+#Define route for friendgroup
+@app.route('/addToFriendGroup')
+def addToFriendGroupRoute():
+	username = session['username']
+	#groups that user is owner of
+	cursor = conn.cursor()
+	query = 'SELECT DISTINCT group_name, username_creator FROM Member WHERE username_creator = %s'
+	cursor.execute(query, (username))
+	fgownerdata = cursor.fetchall()
+	cursor.close()
+	return render_template('addToFriendGroup.html', fgownerdata=fgownerdata, fullname = True)
 
 @app.route('/changeuser')
 def changeuserRoute():
@@ -269,16 +281,57 @@ def untag(contentID):
 	cursor.close()
 	return redirect(url_for('home'))
 
-# @app.route('/friendGroupAuth')
-# def friendGroupAuth():
-# 	# groupname = session['groupname']
-# 	# username = session['username']
-# 	# description = session ['description']
-# 	# cursor = conn.cursor() 
-# 	# query = 'INSERT INTO FriendGroup VALUES (%s, %s, %s)'
-# 	# conn.commit()
-# 	# cursor.close()
-# 	return redirect(url_for('home'))
+@app.route('/addToFriendGroupAuth', methods=['GET','POST'])
+def addToFriendGroupAuth():
+	username = session['username']
+	fullNameActive = request.form['fullname']
+	if (fullNameActive == 'True'):
+		cursor = conn.cursor() 
+		memberFirstName = request.form['memberFirstName']
+		memberLastName = request.form['memberLastName']
+		query = 'SELECT count(*) FROM Person WHERE first_name = %s and last_name = %s'
+		cursor.execute(query,(memberFirstName, memberLastName))
+		countNames = cursor.fetchone()
+		countNames = countNames['count(*)']
+		cursor.close()
+		#groups that user is owner of
+		cursor = conn.cursor()
+		query = 'SELECT DISTINCT group_name, username_creator FROM Member WHERE username_creator = %s'
+		cursor.execute(query, (username))
+		fgownerdata = cursor.fetchall()
+		cursor.close()
+		if (countNames > 1):
+			return render_template('addToFriendGroup.html', fgownerdata = fgownerdata, fullname = False)
+		if (countNames == 1):
+			#find user username
+			cursor = conn.cursor()
+			query = 'SELECT username FROM Person WHERE first_name = %s and last_name = %s'
+			cursor.execute(query, (memberFirstName, memberLastName))
+			addUsername = cursor.fetchone()
+			addUsername = addUsername['username']
+			cursor.close()
+
+			groupNames = request.form['groupNames']
+			#make groups into array
+			listOfGroupNames = groupNames.split(',')
+			cursor = conn.cursor()
+			for group in listOfGroupNames:
+				query = 'INSERT INTO Member (username, group_name, username_creator) VALUES (%s, %s, %s)'
+				cursor.execute(query, (addUsername, group, username))
+			cursor.close()
+
+	else:
+		usernameToAdd = request.form.get('addUsername')
+		groupNames = request.form.get('groupNames')
+		#make groups into array
+		listOfGroupNames = groupNames.split(',')
+		cursor = conn.cursor()
+		for group in listOfGroupNames:
+			query = 'INSERT INTO Member (username, group_name, username_creator) VALUES (%s, %s, %s)'
+			cursor.execute(query, (usernameToAdd, group, username))
+		cursor.close()
+	conn.commit()
+	return redirect(url_for('home'))
 
 @app.route('/friendGroupAuth', methods=['GET','POST'])
 def friendGroupAuth():
