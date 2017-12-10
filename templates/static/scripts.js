@@ -102,3 +102,15 @@ $('#postBtn').on('click', function() {
     line = ` <img class="viewImg" src="` + filepath + `">`
     console.log(line)
 });
+
+$('#tagBtn').on('click', function() {
+    alert('tag btn');
+    $('#optionsBlock').css('display', 'none');
+    $('#tagUsersContainer').css('display', 'block');
+});
+
+$('#commentBtn').on('click', function() {
+    alert('clicked btn')
+    $('#optionsBlock').css('display', 'none');
+    $('#commentBlock').css('display', 'block');
+});
