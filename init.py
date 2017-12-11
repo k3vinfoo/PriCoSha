@@ -205,10 +205,8 @@ def home():
 		if key == 'tags':
 			tagged = request.form[key]
 		if key == 'idClicked':
-			print(request.form[key])
 			contentID = request.form[key]
 		if key == 'comment':
-			print(request.form[key])
 			comment = request.form[key]
 	if (tagged != "" and contentID != ""):
 		cursor = conn.cursor() 
@@ -227,12 +225,12 @@ def home():
 		conn.commit()
 		cursor.close()
 	if (comment != "" and contentID != ""):
-		print("entered here")
 		cursor = conn.cursor()
 		query = 'INSERT INTO Comment (id, username, timest, comment_text) VALUES (%s, %s, %s, %s)'
 		cursor.execute(query, (contentID, username, time.strftime('%Y-%m-%d %H:%M:%S'), comment))
 		conn.commit()
 		cursor.close()
+		return redirect(url_for('home'))
 
 	#render home.html and pass info info the html for parsing
 	return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, commentData=commentData, memberdata=memberdata, taggedindata=taggedindata, allmembers=allmembers)
@@ -266,7 +264,6 @@ def post():
 		listOfGroupNames = groupNames.split(',')
 		cursor = conn.cursor()
 		for group in listOfGroupNames:
-			print(group)
 			query = 'INSERT INTO Share (id, group_name, username) VALUES (%s, %s, %s)'
 			cursor.execute(query, (maxVal, group, username))
 		
@@ -391,7 +388,6 @@ def friendGroupAuth():
 			#add each member to the DB
 			query = 'INSERT INTO Member (username, group_name, username_creator) VALUES (%s, %s, %s)'
 			cursor.execute(query, (request.form[key], groupname, username))
-			#print(request.form[key] will print the usernames entered for all members)
 	
 	conn.commit()
 	cursor.close()

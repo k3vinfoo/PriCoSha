@@ -69,8 +69,7 @@ function addFields() {
 }
 
 function newModal() {
-    console.log('clicked');
-    // window.location.reload();
+    window.location.reload();
 
     // var comment = document.getElementById('#parentCommentCont');
     // var tag = document.getElementById('#parentTagCont');
