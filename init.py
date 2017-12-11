@@ -177,9 +177,23 @@ def home():
 	fgownerdata = cursor.fetchall()
 	cursor.close()
 
+	#members of group that user owns
+	cursor = conn.cursor()
+	query = 'SELECT DISTINCT group_name, username FROM Member WHERE username_creator = %s'
+	cursor.execute(query, (username))
+	memberdata = cursor.fetchall()
+	cursor.close()
+
+	#
+	cursor = conn.cursor()
+	query = 'SELECT DISTINCT group_name, username_creator, username FROM Member'
+	cursor.execute(query)
+	allmembers = cursor.fetchall()
+	cursor.close()
+
 	#groups that user is member of
 	cursor = conn.cursor()
-	query = 'SELECT DISTINCT group_name FROM Member WHERE username = %s'
+	query = 'SELECT DISTINCT group_name, username_creator FROM Member WHERE username = %s'
 	cursor.execute(query, (username))
 	fgmemberdata = cursor.fetchall()
 	cursor.close()
@@ -204,7 +218,7 @@ def home():
 		error = None
 		if (checked):
 			error = "This user is already tagged"
-			return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, commentData=commentData, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, taggedindata=taggedindata, error = error)
+			return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, commentData=commentData, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, taggedindata=taggedindata, memberdata=memberdata, allmembers=allmembers, error = error)
 		cursor.close()
 
 		cursor = conn.cursor()
@@ -221,7 +235,7 @@ def home():
 		cursor.close()
 
 	#render home.html and pass info info the html for parsing
-	return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, commentData=commentData, taggedindata=taggedindata)
+	return render_template('home.html', username=username, posts=data, tagData=tagData, managetags=managetags, fgmemberdata=fgmemberdata, fgownerdata=fgownerdata, commentData=commentData, memberdata=memberdata, taggedindata=taggedindata, allmembers=allmembers)
 
 		
 @app.route('/post', methods=['GET', 'POST'])
@@ -297,6 +311,16 @@ def untag(contentID):
 	cursor = conn.cursor()
 	query = 'DELETE FROM Tag WHERE id = %s and username_taggee = %s'
 	cursor.execute(query, (contentID, username))
+	conn.commit()
+	cursor.close()
+	return redirect(url_for('home'))
+
+@app.route('/removeuser/<groupname>/<user>')
+def removegroup(groupname, user):
+	username = session['username']
+	cursor = conn.cursor()
+	query = 'DELETE FROM Member WHERE group_name = %s and username = %s and username_creator = %s'
+	cursor.execute(query, (groupname, user, username))
 	conn.commit()
 	cursor.close()
 	return redirect(url_for('home'))

@@ -132,8 +132,13 @@
             {% endif %} {% if not managetags and not taggedindata %} {{"No Tags to Manage"}} {% endif %}
         </div>
         <div class="container">
-            <h3> Friend Groups </h3> {% for fgowner in fgownerdata %} {{fgowner.group_name}}{{" (owner)"}}
-            <br/> {% endfor %} {% for fgmember in fgmemberdata %} {{fgmember.group_name}}{{" (member)"}}
+            <h3> Friend Groups </h3> {% for fgowner in fgownerdata %} <b>{{fgowner.group_name}}</b>{{" (owner)"}}<br/>
+            {% for fgownermem in memberdata %} {% if fgownermem.group_name == fgowner.group_name %} {{fgownermem.username}}{{" ("}}<a href="removeuser/{{fgownermem.group_name}}/{{fgownermem.username}}">Remove</a>{{")"}}<br/>{% endif %}{% endfor %}
+
+            <br/> {% endfor %} {% for fgmember in fgmemberdata %} <b>{{fgmember.group_name}}</b>{{" (member)"}}<br/>
+            {{fgmember.username_creator}}<br/>
+            {% for thismem in allmembers %} {% if thismem.group_name == fgmember.group_name and thismem.username_creator == fgmember.username_creator and thismem.username != username %} 
+            {{thismem.username}} <br/>{% endif %} {% endfor %}
             <br/> {% endfor %}
             <a class="btn btn-primary" role="btn" href="/friendgroup"> Create Friend Group </a> <a class="btn btn-primary" role="btn" href="/addToFriendGroup"> Add To Friend Group </a>
         </div>
