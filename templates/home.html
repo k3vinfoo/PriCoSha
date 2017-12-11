@@ -162,11 +162,11 @@
                         <td>{{line.content_name}}</td>
                         <td><img class="viewImg" src="{{line.file_path}}"></td>
                         <td>{% if line.public == 1 %} {{"Public"}} {% else %} {{"Private"}} {% endif %}</td>
-                        <td data-toggle="modal" data-target="#tag-modal" onclick="getId(this)" onmouseover="">
+                        <td id = {{line.id}} data-toggle="modal" data-target="#tag-modal" onclick="getId(this)" onmouseover="">
                             {% for tag in tagData %} {% if line.id == tag.id %} {{tag.username_taggee}} </br>
                             {% endif %} {%endfor%}
                         </td>
-                        <td data-toggle="modal" data-target="#comment-modal">
+                        <td id = {{line.id}} data-toggle="modal" data-target="#comment-modal" onclick="getId2(this)" onmouseover="">
                             {% for comment in commentData %} {% if line.id == comment.id%} {{comment.username}}: {{comment.comment_text}} {{comment.timest}} </br>
                             {% endif %} {%endfor%}
                         </td>
@@ -217,7 +217,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="/home" method="POST" id="formCont">
+                                    <form action="/home" method="POST" id="formCont2">
                                         <div class="form-group" id="commentForm">
                                             <input type="text" class="form-control" name="comment" placeholder="Comment here" required style="margin-bottom: 5px">
                                         </div>

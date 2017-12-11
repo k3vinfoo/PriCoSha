@@ -186,11 +186,16 @@ def home():
 
 	tagged = ""
 	contentID = ""
+	comment = ""
 	for key in request.form:
 		if key == 'tags':
 			tagged = request.form[key]
 		if key == 'idClicked':
+			print(request.form[key])
 			contentID = request.form[key]
+		if key == 'comment':
+			print(request.form[key])
+			comment = request.form[key]
 	if (tagged != "" and contentID != ""):
 		cursor = conn.cursor() 
 		checker = 'SELECT * FROM Tag WHERE id = %s AND username_tagger = %s AND username_taggee = %s'
@@ -205,6 +210,13 @@ def home():
 		cursor = conn.cursor()
 		query = 'INSERT INTO Tag (id, username_tagger, username_taggee, timest, status) VALUES (%s, %s, %s, %s, %s)'
 		cursor.execute(query, (contentID, username, tagged, time.strftime('%Y-%m-%d %H:%M:%S'), 0))
+		conn.commit()
+		cursor.close()
+	if (comment != "" and contentID != ""):
+		print("entered here")
+		cursor = conn.cursor()
+		query = 'INSERT INTO Comment (id, username, timest, comment_text) VALUES (%s, %s, %s, %s)'
+		cursor.execute(query, (contentID, username, time.strftime('%Y-%m-%d %H:%M:%S'), comment))
 		conn.commit()
 		cursor.close()
 

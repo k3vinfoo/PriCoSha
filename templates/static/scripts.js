@@ -7,6 +7,15 @@ function getId(element) {
     hiddenContentIDInput.value = element.id;
     form.appendChild(hiddenContentIDInput);
 }
+function getId2(element) {
+    //alert(element.id);
+    var form = document.getElementById('formCont2');
+    var hiddenContentIDInput = document.createElement("input");
+    hiddenContentIDInput.type = "hidden";
+    hiddenContentIDInput.name = 'idClicked';
+    hiddenContentIDInput.value = element.id;
+    form.appendChild(hiddenContentIDInput);
+}
 
 // dont need this yet... for later
 function deleteLastForm() {
